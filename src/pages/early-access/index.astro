@@ -1,0 +1,42 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import Items from '@/components/Items.astro';
+import WaitlistForm from '@/components/WaitlistForm.astro';
+
+// Server-rendered so a submission made without JavaScript can come back here
+// with its error message in the query string and still be shown.
+export const prerender = false;
+
+const { data } = (await getEntry('pages', 'early-access'))!;
+const s = data.sections;
+const error = Astro.url.searchParams.get('error')?.slice(0, 300) || undefined;
+Astro.response.headers.set('cache-control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=86400');
+---
+
+<Base title={data.title} description={data.description}>
+  <section class="border-b border-line">
+    <div class="wrap grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-5">
+        <p class="eyebrow rise mb-5" style="--i:0">{data.eyebrow}</p>
+        <h1 class="t-1 rise" style="--i:1">{data.heading}</h1>
+        <p class="lede rise mt-6" style="--i:2">{data.lede}</p>
+        <div class="rise mt-10 hidden lg:block" style="--i:3">
+          <Items items={s.expect.items!} cols={2} class="[&_h3]:text-[1.0625rem]" />
+        </div>
+      </div>
+      <div class="rise lg:col-span-7 lg:pl-6" style="--i:3">
+        <div class="rounded-lg border border-line bg-surface/60 p-6 sm:p-8">
+          <WaitlistForm error={error} id="early-access" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Section tight class="lg:hidden">
+    <SectionHead eyebrow={s.expect.eyebrow} heading={s.expect.heading} size="t-2" />
+    <Items items={s.expect.items!} cols={3} class="mt-8" />
+  </Section>
+</Base>

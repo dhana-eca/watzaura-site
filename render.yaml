@@ -1,0 +1,34 @@
+# Render Blueprint for watzaura.com — one small Node web service (static pages
+# + the /api/waitlist endpoint) and a Postgres database for the waitlist.
+# Secrets marked sync: false are entered in the Render dashboard, not here.
+services:
+  - type: web
+    name: watzaura-site
+    runtime: node
+    plan: starter
+    region: singapore
+    buildCommand: npm ci && npm run build && npm run db:migrate
+    startCommand: npm start
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: watzaura-waitlist
+          property: connectionString
+      - key: RESEND_API_KEY
+        sync: false
+      - key: WAITLIST_FROM
+        value: Watzaura <hello@watzaura.com>
+      - key: WAITLIST_NOTIFY
+        value: hello@watzaura.com
+
+databases:
+  - name: watzaura-waitlist
+    plan: free
+    region: singapore
+    postgresMajorVersion: "16"

@@ -1,0 +1,57 @@
+---
+title: Switch
+description: "Moving to Plinth from Momence, Upper Hand or spreadsheets. We migrated our own academy off Momence — customers, memberships and paid bookings — so this page describes something we have actually done."
+eyebrow: Switching to Plinth
+heading: We moved our own academy off Momence. We can move yours.
+lede: "Migration is the reason most academies stay on software they have outgrown. We have done this one for real — customers, direct-debit memberships and months of paid bookings, moved into Plinth while the centre kept trading — so the plan below is a record of work, not a promise."
+ctas:
+  - { label: Request early access, href: /early-access }
+  - { label: Read the Elite story, href: /built-at-elite }
+sections:
+  from:
+    eyebrow: Where you are coming from
+    heading: Three starting points.
+    items:
+      - meta: From Momence
+        title: The one we have done ourselves.
+        body: Elite's Pakenham centre ran on Momence. We exported customers, appointment reservations and memberships, matched families to players, and imported paid bookings so nothing a parent had paid for went missing. Direct-debit members kept their plan and their next charge date.
+        points:
+          - Customer export → family accounts and players
+          - Appointment reservations → lane and coach bookings, marked paid
+          - Direct-debit memberships → the same plan, the same next charge date
+      - meta: From Upper Hand
+        title: Same shape, same plan.
+        body: Upper Hand's exports carry clients, memberships, credits and scheduled events. We map them the same way — family, player, plan, booking — and reconcile paid balances before go-live. We have not yet run an Upper Hand migration at scale, and we will say so until we have.
+        points:
+          - Clients and dependants → family accounts and players
+          - Memberships and packages → plans and credit wallets
+          - Scheduled events → bookings and group rosters
+      - meta: From spreadsheets
+        title: Often the cleanest start.
+        body: A spreadsheet of families, a roster and a bank statement is a perfectly good source. We import people first, then memberships, then the next four weeks of bookings, and run the two side by side for one billing cycle.
+        points:
+          - One sheet of families and players, any layout
+          - Memberships set up against the real next-charge date
+          - Coaches enter baseline assessments in the first fortnight
+  how:
+    eyebrow: How it runs
+    heading: Dry run, then apply. Never the other way round.
+    body: "Every import in Plinth runs read-only first and produces a report: what would be created, what already matches, what does not parse. Nothing is written until the report has been read and the numbers make sense. That is how we protect a family's record from a bad column."
+    items:
+      - meta: "01"
+        title: Export
+        body: You send the exports your current system provides. We tell you which ones we need and which we do not.
+      - meta: "02"
+        title: Dry run
+        body: We import into a dry run and send you the report — matched, created, skipped, and why.
+      - meta: "03"
+        title: Reconcile
+        body: Paid bookings, active memberships and credit balances are checked against your current system before go-live.
+      - meta: "04"
+        title: Go live
+        body: Families get an invite. Direct debits continue on their existing schedule. The old system stays readable until you decide it can go.
+  keep:
+    eyebrow: What you keep
+    heading: Your data stays yours.
+    body: "Plinth logs every export and lets you take your record with you. If it does not work out, you leave with what you came with, plus everything that was written while you were here."
+---

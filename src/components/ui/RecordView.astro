@@ -1,0 +1,123 @@
+---
+/**
+ * Hero visual: the lane grid on the left, the athlete record it opens on the
+ * right. Rendered in HTML so it is honest about what Plinth is (a booking that
+ * opens onto a development record). All data is synthetic — an invented
+ * academy, invented players.
+ */
+import Sparkline from './Sparkline.astro';
+
+const lanes = ['Lane 1', 'Lane 2', 'Lane 3', 'Machine A'];
+const times = ['4:00', '4:30', '5:00', '5:30', '6:00', '6:30', '7:00'];
+// [laneIndex, rowStart, rowSpan, label, kind]
+type Block = [number, number, number, string, 'group' | 'one' | 'machine' | 'selected'];
+const blocks: Block[] = [
+  [0, 0, 2, 'U13 Squad · Coach Dev', 'group'],
+  [1, 0, 2, 'U13 Squad · Coach Dev', 'group'],
+  [2, 1, 2, 'Arjun V. · Bowling', 'one'],
+  [0, 3, 2, 'Priya N. · 1:1 Coach Sam', 'selected'],
+  [3, 2, 1, 'Casual · Maya T.', 'machine'],
+  [1, 4, 2, 'U15 Girls · Coach Lena', 'group'],
+  [2, 4, 3, 'U15 Girls · Coach Lena', 'group'],
+  [3, 5, 2, 'Casual · Sam O.', 'machine'],
+];
+const kind = {
+  group: 'bg-surface-2 border-line-strong text-ink-2',
+  one: 'bg-surface-2 border-line-strong text-ink-2',
+  machine: 'bg-transparent border-line-strong border-dashed text-muted',
+  selected: 'bg-brass text-ground border-brass font-medium',
+};
+---
+
+<div class="ui-frame grid lg:grid-cols-[1.15fr_1fr]" role="img" aria-label="Illustration of Plinth: a lane booking grid on the left, and the athlete record that booking opens on the right — membership, attendance, this week's coach rating and the assigned program.">
+  <!-- Booking grid -->
+  <div class="border-b border-line p-4 lg:border-b-0 lg:border-r">
+    <div class="mb-3 flex items-center justify-between gap-3">
+      <div>
+        <p class="ui-label">Northgate Cricket Academy</p>
+        <p class="mt-0.5 font-medium text-ink">Tue 14 Oct · Lanes</p>
+      </div>
+      <p class="ui-label hidden xs:block">Day · <span class="text-ink-2">Week</span> · Month</p>
+    </div>
+    <div class="grid" style={`grid-template-columns: 2.6rem repeat(${lanes.length}, minmax(0, 1fr)); grid-template-rows: 1.5rem repeat(${times.length}, 1.85rem); gap: 2px;`}>
+      <div></div>
+      {lanes.map((l) => <div class="ui-label truncate pb-1 text-center">{l}</div>)}
+      {times.map((t) => (
+        <>
+          <div class="ui-num self-start pt-0.5 text-[0.6875rem] text-muted">{t}</div>
+          {lanes.map(() => <div class="border-t border-line/70"></div>)}
+        </>
+      ))}
+      {blocks.map(([lane, row, span, label, k]) => (
+        <div
+          class:list={['overflow-hidden rounded-[3px] border px-1.5 py-1 text-[0.6875rem] leading-tight', kind[k]]}
+          style={`grid-column:${lane + 2}; grid-row:${row + 2} / span ${span}; z-index:1;`}
+        >
+          <span class="line-clamp-2">{label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Athlete record -->
+  <div class="p-4">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <p class="ui-label">Athlete record</p>
+        <p class="mt-0.5 font-display text-[1.125rem] font-medium leading-tight text-ink opsz-48">Priya N.</p>
+        <p class="text-[0.75rem] text-muted">Junior Elite · Batting · Right-hand</p>
+      </div>
+      <span class="rounded-full border border-line-strong px-2 py-0.5 text-[0.6875rem] text-ink-2">Opened from booking</span>
+    </div>
+
+    <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-line pt-3">
+      <div>
+        <dt class="ui-label">Membership</dt>
+        <dd class="mt-0.5 text-ink">Junior Group · 2/wk</dd>
+        <dd class="text-[0.75rem] text-muted">Direct debit · next 21 Oct</dd>
+      </div>
+      <div>
+        <dt class="ui-label">Attendance</dt>
+        <dd class="mt-0.5 text-ink"><span class="ui-num">11</span> of <span class="ui-num">12</span> this term</dd>
+        <dd class="text-[0.75rem] text-muted">Last: Sat 11 Oct · U13 Squad</dd>
+      </div>
+    </dl>
+
+    <div class="mt-4 border-t border-line pt-3">
+      <div class="flex items-center justify-between">
+        <p class="ui-label">This week's rating · Batting</p>
+        <p class="text-[0.6875rem] text-muted">Coach Sam</p>
+      </div>
+      <div class="mt-2 grid grid-cols-[1fr_auto] items-end gap-3">
+        <ul class="grid gap-1.5 text-[0.75rem]">
+          {[
+            ['Technique', 7],
+            ['Footwork', 6],
+            ['Shot selection', 5],
+            ['Fitness', 7],
+          ].map(([k, v]) => (
+            <li class="grid grid-cols-[6.5rem_1fr_1.25rem] items-center gap-2">
+              <span class="text-ink-2">{k}</span>
+              <span class="h-1 rounded-full bg-line" aria-hidden="true"><span class="block h-1 rounded-full bg-brass" style={`width:${(Number(v) / 10) * 100}%`}></span></span>
+              <span class="ui-num text-right text-ink">{v}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="text-right">
+          <p class="ui-label">8 weeks</p>
+          <Sparkline values={[4, 4, 5, 5, 5, 6, 6, 7]} class="mt-1 h-8 w-20" />
+        </div>
+      </div>
+      <p class="mt-3 text-[0.75rem] leading-snug text-ink-2"><span class="text-brass">Highlight</span> — held shape on the front-foot drive against the machine at 95.</p>
+      <p class="mt-1 text-[0.75rem] leading-snug text-ink-2"><span class="text-brass">Next</span> — shot selection outside off; leave drill before hitting.</p>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between border-t border-line pt-3">
+      <div>
+        <p class="ui-label">Program</p>
+        <p class="mt-0.5 text-ink">Front-foot drive block</p>
+      </div>
+      <p class="ui-num text-[0.75rem] text-ink-2">3 / 5 complete</p>
+    </div>
+  </div>
+</div>

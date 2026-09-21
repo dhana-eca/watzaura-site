@@ -1,0 +1,80 @@
+---
+/**
+ * The signature motif: lanes across, time slots down, a few blocks booked in
+ * brass. It is literally the thing Plinth schedules, so it carries meaning
+ * rather than decorating. Purely presentational — always aria-hidden.
+ */
+interface Props {
+  cols?: number;
+  rows?: number;
+  /** [col, row, span] cells to fill in brass. Row spans downwards. */
+  filled?: Array<[number, number, number?]>;
+  /** Cells drawn as a faint outline only (a "held" slot). */
+  held?: Array<[number, number, number?]>;
+  cell?: number;
+  gap?: number;
+  class?: string;
+  lineOpacity?: number;
+}
+const {
+  cols = 7,
+  rows = 12,
+  filled = [
+    [1, 2, 2],
+    [3, 4, 1],
+    [4, 7, 3],
+    [6, 1, 2],
+    [2, 9, 2],
+  ],
+  held = [[5, 3, 2], [0, 6, 1]],
+  cell = 24,
+  gap = 0,
+  class: className = '',
+  lineOpacity = 1,
+} = Astro.props;
+const w = cols * (cell + gap) - gap;
+const h = rows * (cell + gap) - gap;
+const x = (c: number) => c * (cell + gap);
+const y = (r: number) => r * (cell + gap);
+---
+
+<svg
+  class={className}
+  viewBox={`0 0 ${w} ${h}`}
+  width={w}
+  height={h}
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g stroke="var(--color-line)" stroke-width="1" opacity={lineOpacity} shape-rendering="crispEdges">
+    {Array.from({ length: cols + 1 }, (_, c) => (
+      <line x1={x(c) + 0.5} y1="0" x2={x(c) + 0.5} y2={h} />
+    ))}
+    {Array.from({ length: rows + 1 }, (_, r) => (
+      <line x1="0" y1={y(r) + 0.5} x2={w} y2={y(r) + 0.5} />
+    ))}
+  </g>
+  {held.map(([c, r, span = 1]) => (
+    <rect
+      x={x(c) + 3.5}
+      y={y(r) + 3.5}
+      width={cell - 7}
+      height={span * (cell + gap) - gap - 7}
+      stroke="var(--color-brass)"
+      stroke-opacity="0.45"
+      stroke-dasharray="3 3"
+      rx="1"
+    />
+  ))}
+  {filled.map(([c, r, span = 1]) => (
+    <rect
+      x={x(c) + 3}
+      y={y(r) + 3}
+      width={cell - 6}
+      height={span * (cell + gap) - gap - 6}
+      fill="var(--color-brass)"
+      rx="1"
+    />
+  ))}
+</svg>

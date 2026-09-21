@@ -1,0 +1,36 @@
+---
+import Wordmark from './Wordmark.astro';
+import LaneGrid from './LaneGrid.astro';
+import { nav, site } from '@/lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="wrap grid gap-12 py-14 md:grid-cols-12 md:gap-8">
+    <div class="md:col-span-5">
+      <Wordmark size="md" />
+      <p class="mt-4 max-w-sm text-[0.9375rem] text-muted">
+        {site.legalName}. Makers of {site.product.name}, the operating system for
+        performance-focused sports academies. {site.headOffice}.
+      </p>
+      <a href={`mailto:${site.email}`} class="link mt-4 inline-block text-[0.9375rem]">{site.email}</a>
+      <LaneGrid class="mt-8 h-auto w-40 opacity-70" cols={8} rows={4} cell={18} filled={[[1, 1], [4, 2, 2], [6, 0]]} held={[[2, 3]]} />
+    </div>
+    {Object.entries(nav.footer).map(([group, links]) => (
+      <nav aria-label={group} class="md:col-span-2 md:first-of-type:col-start-7">
+        <h2 class="ui-label mb-3 font-sans! text-muted">{group}</h2>
+        <ul class="grid gap-2">
+          {links.map((l) => (
+            <li><a href={l.href} class="text-[0.9375rem] text-ink-2 transition-colors hover:text-brass-light">{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    ))}
+  </div>
+  <div class="border-t border-line">
+    <div class="wrap flex flex-col gap-2 py-5 font-mono text-[0.75rem] text-muted sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.legalName} · ABN {site.abn} · ACN {site.acn}</p>
+      <p>Registered in Australia · No cookies, no trackers</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,144 @@
+---
+import Wordmark from './Wordmark.astro';
+import { nav } from '@/lib/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isProduct = path.startsWith('/product');
+const active = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-ground/85 backdrop-blur-md supports-[backdrop-filter]:bg-ground/70">
+  <a
+    href="#main"
+    class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded focus:bg-brass focus:px-3 focus:py-2 focus:text-ground"
+    >Skip to content</a
+  >
+  <div class="wrap flex h-16 items-center justify-between gap-6">
+    <a href="/" class="shrink-0" aria-label="Watzaura home">
+      <Wordmark size="md" />
+    </a>
+
+    <nav aria-label="Primary" class="hidden items-center gap-1 lg:flex">
+      <div class="relative" data-menu>
+        <button
+          type="button"
+          class:list={['btn btn-ghost btn-sm gap-1.5', isProduct && 'text-ink']}
+          aria-expanded="false"
+          aria-controls="product-menu"
+          data-menu-button
+        >
+          Product
+          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" class="transition-transform duration-200 [[aria-expanded=true]>&]:rotate-180">
+            <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <div
+          id="product-menu"
+          class="absolute left-0 top-full mt-2 hidden w-[22rem] rounded-lg border border-line bg-surface p-2 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.8)] data-[open]:block"
+          data-menu-panel
+        >
+          <ul class="grid gap-0.5">
+            {nav.product.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    'block rounded-md px-3 py-2.5 transition-colors hover:bg-surface-2',
+                    active(item.href) && 'bg-surface-2',
+                  ]}
+                  aria-current={path === item.href ? 'page' : undefined}
+                >
+                  <span class="block text-[0.9375rem] font-medium text-ink">{item.label}</span>
+                  <span class="block text-[0.8125rem] text-muted">{item.blurb}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      {nav.primary.map((item) => (
+        <a
+          href={item.href}
+          class:list={['btn btn-ghost btn-sm', active(item.href) && 'text-ink']}
+          aria-current={path === item.href ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={nav.cta.href} class="btn btn-primary btn-sm hidden sm:inline-flex">{nav.cta.label}</a>
+      <button
+        type="button"
+        class="btn btn-ghost btn-sm -mr-2 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-mobile-button
+      >
+        <span class="sr-only">Menu</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M3 5.5h14M3 10h14M3 14.5h14" data-icon-open />
+            <path d="M5 5l10 10M15 5 5 15" data-icon-close class="hidden" />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t border-line bg-ground lg:hidden data-[open]:block" data-mobile-panel>
+    <nav aria-label="Mobile" class="wrap py-4">
+      <p class="eyebrow mb-2">Product</p>
+      <ul class="mb-4 grid">
+        {nav.product.map((item) => (
+          <li>
+            <a href={item.href} class="block py-2 text-[1.0625rem] text-ink" aria-current={path === item.href ? 'page' : undefined}>
+              {item.label}
+              <span class="block text-[0.8125rem] text-muted">{item.blurb}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <ul class="grid border-t border-line pt-3">
+        {nav.primary.map((item) => (
+          <li>
+            <a href={item.href} class="block py-2 text-[1.0625rem] text-ink" aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+      <a href={nav.cta.href} class="btn btn-primary mt-4 w-full">{nav.cta.label}</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Disclosure menus: click toggles, Escape and outside-click close, and the
+  // panel also opens on hover for pointer users without trapping keyboard users.
+  const setup = (root: Element, btnSel: string, panelSel: string, hover: boolean) => {
+    const btn = root.querySelector<HTMLButtonElement>(btnSel);
+    const panel = root.querySelector<HTMLElement>(panelSel);
+    if (!btn || !panel) return;
+    const set = (open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      panel.toggleAttribute('data-open', open);
+      btn.querySelector('[data-icon-open]')?.classList.toggle('hidden', open);
+      btn.querySelector('[data-icon-close]')?.classList.toggle('hidden', !open);
+    };
+    const isOpen = () => btn.getAttribute('aria-expanded') === 'true';
+    btn.addEventListener('click', () => set(!isOpen()));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { set(false); btn.focus(); } });
+    document.addEventListener('click', (e) => { if (isOpen() && !root.contains(e.target as Node)) set(false); });
+    if (hover && matchMedia('(hover: hover)').matches) {
+      let t = 0;
+      root.addEventListener('mouseenter', () => { clearTimeout(t); set(true); });
+      root.addEventListener('mouseleave', () => { t = window.setTimeout(() => set(false), 120); });
+    }
+    panel.addEventListener('focusout', (e) => {
+      if (!root.contains(e.relatedTarget as Node)) set(false);
+    });
+  };
+  document.querySelectorAll('[data-menu]').forEach((el) => setup(el, '[data-menu-button]', '[data-menu-panel]', true));
+  const header = document.querySelector('header');
+  if (header) setup(header, '[data-mobile-button]', '[data-mobile-panel]', false);
+</script>

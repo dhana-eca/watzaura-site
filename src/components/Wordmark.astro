@@ -1,0 +1,20 @@
+---
+/**
+ * Proposed wordmark: the name set in Fraunces at display optical size, with a
+ * single brass block taken from the lane grid. No logo exists yet — this is a
+ * typographic mark that can be replaced by a supplied SVG in one place.
+ */
+interface Props {
+  which?: 'watzaura' | 'plinth';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+const { which = 'watzaura', size = 'md', class: className = '' } = Astro.props;
+const text = which === 'plinth' ? 'Plinth' : 'Watzaura';
+const sizes = { sm: 'text-[1.125rem]', md: 'text-[1.375rem]', lg: 'text-[2rem]' };
+---
+
+<span class:list={['inline-flex items-center gap-2 font-display text-ink leading-none', sizes[size], className]} style="font-variation-settings:'opsz' 144; font-weight:520; letter-spacing:-0.02em">
+  <span class="inline-block size-[0.42em] bg-brass translate-y-[0.04em]" aria-hidden="true"></span>
+  <span>{text}</span>
+</span>

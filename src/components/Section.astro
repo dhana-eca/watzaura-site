@@ -1,0 +1,11 @@
+---
+/** Vertical rhythm for page sections. `tone` swaps to the surface colour. */
+interface Props { id?: string; tone?: 'ground' | 'surface'; class?: string; tight?: boolean }
+const { id, tone = 'ground', class: className = '', tight = false } = Astro.props;
+---
+
+<section id={id} class:list={[tone === 'surface' && 'bg-surface/60 border-y border-line', tight ? 'py-14 md:py-20' : 'py-20 md:py-28', className]}>
+  <div class="wrap">
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+/**
+ * Page hero. Left column: eyebrow, heading, lede, CTAs. Right column (optional
+ * slot): a rendered product visual. Never 100vh — sized by its content.
+ */
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  lede?: string;
+  ctas?: readonly { label: string; href: string }[];
+  /** 'split' puts the slot beside the text on desktop; 'stack' puts it below. */
+  layout?: 'split' | 'stack' | 'text';
+  size?: 't-hero' | 't-1';
+}
+const { eyebrow, heading, lede, ctas = [], layout = 'text', size = 't-hero' } = Astro.props;
+const hasVisual = layout !== 'text';
+---
+
+<section class="relative overflow-hidden border-b border-line">
+  <div class:list={['wrap grid gap-12 py-16 md:py-24', layout === 'split' && 'lg:grid-cols-12 lg:items-center lg:gap-10']}>
+    <div class:list={[layout === 'split' ? 'lg:col-span-6' : 'max-w-4xl']}>
+      {eyebrow && <p class="eyebrow rise mb-5" style="--i:0">{eyebrow}</p>}
+      <h1 class:list={[size, 'rise']} style="--i:1">{heading}</h1>
+      {lede && <p class="lede rise mt-6 max-w-2xl" style="--i:2">{lede}</p>}
+      {ctas.length > 0 && (
+        <div class="rise mt-8 flex flex-wrap gap-3" style="--i:3">
+          {ctas.map((c, i) => (
+            <a href={c.href} class:list={['btn btn-lg', i === 0 ? 'btn-primary' : 'btn-secondary']}>{c.label}</a>
+          ))}
+        </div>
+      )}
+    </div>
+    {hasVisual && (
+      <div class:list={['rise min-w-0', layout === 'split' && 'lg:col-span-6']} style="--i:4">
+        <slot />
+      </div>
+    )}
+  </div>
+</section>

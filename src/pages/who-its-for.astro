@@ -1,0 +1,51 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import Items from '@/components/Items.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import LaneGrid from '@/components/LaneGrid.astro';
+
+const { data } = (await getEntry('pages', 'who-its-for'))!;
+const s = data.sections;
+type Cells = Array<[number, number, number?]>;
+const segments = [
+  { id: 'cricket', sec: s.cricket, filled: [[0, 0, 2], [2, 1, 2], [4, 3, 2]] as Cells },
+  { id: 'facilities', sec: s.facilities, filled: [[1, 0], [3, 2, 2], [5, 1]] as Cells },
+  { id: 'multi-sport', sec: s['multi-sport'], filled: [[0, 2], [2, 0, 2], [4, 1], [5, 4]] as Cells },
+];
+---
+
+<Base title={data.title} description={data.description}>
+  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} size="t-1" />
+
+  {segments.map(({ id, sec, filled }, i) => (
+    <Section id={id} tone={i % 2 ? 'surface' : 'ground'}>
+      <div class="grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div class="lg:col-span-5">
+          <SectionHead eyebrow={sec.eyebrow} heading={sec.heading} body={sec.body} />
+          <LaneGrid class="mt-8 hidden h-auto w-40 lg:block" cols={6} rows={5} cell={22} filled={filled} held={[]} />
+        </div>
+        <div class="lg:col-span-7">
+          <Items items={sec.items!} cols={2} />
+        </div>
+      </div>
+    </Section>
+  ))}
+
+  <Section>
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-8">
+      <div>
+        <SectionHead eyebrow={s.fit.eyebrow} heading={s.fit.heading} size="t-2" />
+        <Items items={s.fit.items!} cols={2} class="mt-8" />
+      </div>
+      <div class="lg:pl-8">
+        <SectionHead eyebrow={s.notfit.eyebrow} heading={s.notfit.heading} body={s.notfit.body} size="t-2" />
+      </div>
+    </div>
+  </Section>
+
+  <CtaBand />
+</Base>

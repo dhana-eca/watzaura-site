@@ -1,0 +1,41 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import Items from '@/components/Items.astro';
+import WaitlistForm from '@/components/WaitlistForm.astro';
+
+const { data } = (await getEntry('pages', 'pricing'))!;
+const s = data.sections;
+---
+
+<Base title={data.title} description={data.description}>
+  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} size="t-1" />
+
+  <Section>
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-8">
+      <div>
+        <SectionHead eyebrow={s.what.eyebrow} heading={s.what.heading} size="t-2" />
+        <Items items={s.what.items!} cols={2} class="mt-8" />
+      </div>
+      <div class="lg:pl-8">
+        <SectionHead eyebrow={s.wont.eyebrow} heading={s.wont.heading} size="t-2" />
+        <Items items={s.wont.items!} cols={2} class="mt-8" />
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="surface" id="waitlist">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <SectionHead eyebrow="Early access" heading="Join the list." />
+        <p class="mt-6 max-w-md text-[1.0625rem] leading-relaxed text-ink-2">Early-access academies will know the pricing before it is published here. Tell us about yours.</p>
+      </div>
+      <div class="lg:col-span-7">
+        <WaitlistForm id="pricing-waitlist" />
+      </div>
+    </div>
+  </Section>
+</Base>

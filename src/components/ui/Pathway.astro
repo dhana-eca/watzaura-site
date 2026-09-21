@@ -1,0 +1,66 @@
+---
+/** Development visual: an athlete's pathway over a term. Synthetic data. */
+import Sparkline from './Sparkline.astro';
+const weeks = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8'];
+const streams = [
+  { name: 'Technique', series: [4, 4, 5, 5, 5, 6, 6, 7] },
+  { name: 'Footwork', series: [3, 4, 4, 5, 5, 5, 6, 6] },
+  { name: 'Shot selection', series: [4, 4, 4, 4, 5, 5, 5, 5] },
+  { name: 'Fitness', series: [5, 5, 6, 6, 6, 7, 7, 7] },
+];
+const program = ['Shadow drive · 3 × 20', 'Drop-feed drive · 4 × 10', 'Machine · 95 km/h · 30 balls', 'Leave drill · 20 balls', 'Match scenario · 6 overs'];
+---
+
+<div class="ui-frame grid md:grid-cols-[1.1fr_1fr]" role="img" aria-label="Illustration of an athlete pathway in Plinth: eight weeks of coach ratings by area, this week's highlight and next focus, the assigned program, a coach note and the training diary.">
+  <div class="border-b border-line p-4 md:border-b-0 md:border-r">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <p class="ui-label">Pathway · Batting</p>
+        <p class="mt-0.5 font-display text-[1.125rem] font-medium leading-tight text-ink opsz-48">Priya N.</p>
+        <p class="text-[0.75rem] text-muted">Junior Elite · Coach Sam · Term 4</p>
+      </div>
+      <p class="ui-label text-right">Rated<br /><span class="text-ink-2">8 of 8 weeks</span></p>
+    </div>
+    <div class="mt-4 grid grid-cols-[6.5rem_1fr_2.25rem] items-center gap-x-3 gap-y-2.5">
+      <p class="ui-label">Area</p>
+      <p class="ui-label flex justify-between"><span>{weeks[0]}</span><span>{weeks[weeks.length - 1]}</span></p>
+      <p class="ui-label text-right">Now</p>
+      {streams.map((s) => (
+        <>
+          <p class="text-[0.75rem] text-ink-2">{s.name}</p>
+          <Sparkline values={s.series} class="h-6 w-full" />
+          <p class="ui-num text-right text-ink">{s.series[s.series.length - 1]}</p>
+        </>
+      ))}
+    </div>
+    <div class="mt-4 border-t border-line pt-3 text-[0.75rem] leading-snug">
+      <p class="text-ink-2"><span class="text-brass">Highlight</span> — held shape on the front-foot drive against the machine at 95.</p>
+      <p class="mt-1 text-ink-2"><span class="text-brass">Next focus</span> — shot selection outside off; leave drill before hitting.</p>
+    </div>
+  </div>
+  <div class="grid content-start gap-3 p-4">
+    <div class="rounded-md border border-line p-3">
+      <div class="flex items-center justify-between"><p class="ui-label">Program</p><p class="ui-num text-[0.6875rem] text-ink-2">3 / 5</p></div>
+      <p class="mt-1 text-ink">Front-foot drive block</p>
+      <ul class="mt-2 grid gap-1 text-[0.75rem]">
+        {program.map((t, i) => (
+          <li class="flex items-center gap-2">
+            <span class:list={['size-3 flex-none rounded-[2px] border', i < 3 ? 'border-brass bg-brass' : 'border-line-strong']} aria-hidden="true"></span>
+            <span class:list={i < 3 ? 'text-ink-2' : 'text-muted'}>{t}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="rounded-md border border-line p-3">
+      <div class="flex items-center justify-between"><p class="ui-label">Coach note</p><p class="text-[0.6875rem] text-muted">Sat 11 Oct</p></div>
+      <p class="mt-1 text-[0.75rem] leading-snug text-ink-2">Asked to move to the 5:30 squad next term — ready for it. Flagged for director.</p>
+    </div>
+    <div class="rounded-md border border-line p-3">
+      <div class="flex items-center justify-between"><p class="ui-label">Training diary · family</p><p class="text-[0.6875rem] text-muted">This week</p></div>
+      <ul class="mt-1 grid gap-0.5 text-[0.75rem] text-ink-2">
+        <li class="flex justify-between gap-2"><span>Sun · Batting · throw-downs</span><span class="ui-num text-muted">40 min</span></li>
+        <li class="flex justify-between gap-2"><span>Wed · Fitness · run</span><span class="ui-num text-muted">25 min</span></li>
+      </ul>
+    </div>
+  </div>
+</div>

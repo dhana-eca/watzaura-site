@@ -1,0 +1,63 @@
+---
+/**
+ * Operations visual: a week of one lane, with group sessions, one-to-ones,
+ * casual machine bookings and a held slot. Synthetic data.
+ */
+const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const times = ['4:00', '5:00', '6:00', '7:00', '8:00'];
+type Block = [number, number, number, string, string, 'group' | 'one' | 'casual' | 'held'];
+const blocks: Block[] = [
+  [0, 0, 2, 'U13 Squad', 'Coach Dev · 8 / 8', 'group'],
+  [0, 2, 1, 'Arjun V.', '1:1 · Bowling', 'one'],
+  [1, 1, 2, 'U15 Girls', 'Coach Lena · 6 / 8', 'group'],
+  [1, 3, 1, 'Casual', 'Machine · paid', 'casual'],
+  [2, 0, 1, 'Priya N.', '1:1 · Coach Sam', 'one'],
+  [2, 2, 2, 'Senior HP', 'Coach Dev · 5 / 6', 'group'],
+  [3, 1, 1, 'Held', 'Reschedule pending', 'held'],
+  [3, 2, 2, 'U13 Squad', 'Coach Dev · 8 / 8', 'group'],
+  [4, 0, 2, 'U11 Intro', 'Coach Lena · 10 / 12', 'group'],
+  [4, 3, 1, 'Casual', 'Machine · paid', 'casual'],
+  [5, 0, 3, 'Holiday program', 'Day 3 · 14 / 16', 'group'],
+  [5, 3, 1, 'Maya T.', '1:1 · Batting', 'one'],
+  [0, 4, 1, 'Casual', 'Lane · paid', 'casual'],
+  [2, 4, 1, 'Senior HP', 'Coach Dev · 5 / 6', 'group'],
+  [4, 2, 1, 'Zac L.', '1:1 · Keeping', 'one'],
+];
+const kind = {
+  group: 'bg-surface-2 border-line-strong text-ink',
+  one: 'bg-brass/15 border-brass/50 text-ink',
+  casual: 'bg-transparent border-line-strong border-dashed text-ink-2',
+  held: 'bg-transparent border-brass/60 border-dashed text-brass-light',
+};
+---
+
+<div class="ui-frame p-4" role="img" aria-label="Illustration of a Plinth booking grid for one lane across a week: squads, one-to-one coaching, casual machine bookings and a held slot awaiting a reschedule.">
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+    <div>
+      <p class="ui-label">Hoppers · Lane 2 · Week of 13 Oct</p>
+      <p class="mt-0.5 font-medium text-ink">Bookings</p>
+    </div>
+    <ul class="flex flex-wrap gap-3 text-[0.6875rem] text-muted">
+      <li class="flex items-center gap-1.5"><span class="size-2 rounded-[2px] bg-surface-2 ring-1 ring-line-strong"></span>Group</li>
+      <li class="flex items-center gap-1.5"><span class="size-2 rounded-[2px] bg-brass/40 ring-1 ring-brass/60"></span>1:1</li>
+      <li class="flex items-center gap-1.5"><span class="size-2 rounded-[2px] ring-1 ring-line-strong"></span>Casual</li>
+      <li class="flex items-center gap-1.5"><span class="size-2 rounded-[2px] ring-1 ring-brass/60"></span>Held</li>
+    </ul>
+  </div>
+  <div class="grid" style={`grid-template-columns: 2.4rem repeat(${days.length}, minmax(0, 1fr)); grid-template-rows: 1.4rem repeat(${times.length}, 2.5rem); gap: 3px;`}>
+    <div></div>
+    {days.map((d) => <div class="ui-label text-center">{d}</div>)}
+    {times.map((t) => (
+      <>
+        <div class="ui-num self-start pt-0.5 text-[0.6875rem] text-muted">{t}</div>
+        {days.map(() => <div class="border-t border-line/70"></div>)}
+      </>
+    ))}
+    {blocks.map(([d, r, span, title, sub, k]) => (
+      <div class:list={['overflow-hidden rounded-[3px] border px-1.5 py-1 leading-tight', kind[k]]} style={`grid-column:${d + 2}; grid-row:${r + 2} / span ${span}; z-index:1;`}>
+        <span class="block truncate text-[0.6875rem] font-medium">{title}</span>
+        <span class="block truncate text-[0.625rem] opacity-80">{sub}</span>
+      </div>
+    ))}
+  </div>
+</div>

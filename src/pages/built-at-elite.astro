@@ -1,0 +1,73 @@
+---
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import Items from '@/components/Items.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import LaneGrid from '@/components/LaneGrid.astro';
+import { centrePhotos } from '@/lib/photos';
+
+const { data } = (await getEntry('pages', 'built-at-elite'))!;
+const s = data.sections;
+---
+
+<Base title={data.title} description={data.description}>
+  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} size="t-1" />
+
+  <Section tight>
+    <div class="grid gap-8 border-l-2 border-brass pl-6 lg:grid-cols-12 lg:pl-8">
+      <div class="lg:col-span-8">
+        <SectionHead eyebrow={s.disclosure.eyebrow} heading={s.disclosure.heading} body={s.disclosure.body} size="t-2" />
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="surface">
+    <SectionHead eyebrow={s.centres.eyebrow} heading={s.centres.heading} />
+    <Items items={s.centres.items!} cols={3} class="mt-12" />
+  </Section>
+
+  {centrePhotos.length > 0 ? (
+    <Section>
+      <SectionHead eyebrow={s.photos.eyebrow} heading={s.photos.heading} />
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {centrePhotos.map((p) => (
+          <li>
+            <figure>
+              <Image src={p.src} alt={p.alt} width={960} class="aspect-[4/3] w-full rounded-md border border-line object-cover" />
+              <figcaption class="ui-label mt-2">{p.centre}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  ) : (
+    <Section tight>
+      <div class="grid items-center gap-8 lg:grid-cols-12">
+        <div class="lg:col-span-7">
+          <SectionHead eyebrow={s.photos.eyebrow} heading="Photographs only with consent on file." size="t-2" />
+          <p class="mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-ink-2">
+            Photographs of the three centres — real nets, real lanes, real equipment — are being gathered for this page. Because these are academies full of children, we publish an image showing an identifiable minor only with a guardian's signed media consent on file. Until then this page carries no photographs at all, rather than stock or generated ones.
+          </p>
+        </div>
+        <div class="hidden justify-end lg:col-span-5 lg:flex">
+          <LaneGrid class="h-auto w-56" cols={7} rows={5} cell={30} filled={[[0, 1, 2], [3, 0], [5, 2, 3]]} held={[[2, 3]]} />
+        </div>
+      </div>
+    </Section>
+  )}
+
+  <Section tone={centrePhotos.length ? 'surface' : 'ground'}>
+    <SectionHead eyebrow={s.why.eyebrow} heading={s.why.heading} body={s.why.body} />
+  </Section>
+
+  <Section tone="surface">
+    <SectionHead eyebrow={s.proven.eyebrow} heading={s.proven.heading} />
+    <Items items={s.proven.items!} cols={2} class="mt-12" />
+  </Section>
+
+  <CtaBand heading="See it running at one of our own centres." body="A walkthrough of Plinth on a call, or in person at Hoppers Crossing or Pakenham, before anyone talks about migration." />
+</Base>

@@ -1,0 +1,150 @@
+---
+/**
+ * The early-access form. Works without JavaScript (plain POST, server
+ * redirects back with a message) and is enhanced with fetch when JS is
+ * available. `error` is a message the server sent back after a no-JS submit.
+ */
+import { ROLES, COUNTRIES } from '@/lib/waitlist';
+interface Props { error?: string; compact?: boolean; id?: string }
+const { error, compact = false, id = 'waitlist' } = Astro.props;
+---
+
+<form
+  method="post"
+  action="/api/waitlist"
+  class="relative grid gap-5"
+  novalidate
+  data-waitlist
+  aria-describedby={`${id}-status`}
+>
+  <div id={`${id}-status`} role="status" aria-live="polite" class:list={['rounded-md border px-4 py-3 text-[0.9375rem]', error ? 'border-danger/50 text-ink' : 'hidden']} data-status>
+    {error}
+  </div>
+
+  <div class:list={['grid gap-5', !compact && 'sm:grid-cols-2']}>
+    <div class="grid gap-1.5">
+      <label for={`${id}-email`} class="text-[0.875rem] font-medium text-ink">Work email</label>
+      <input id={`${id}-email`} name="email" type="email" inputmode="email" autocomplete="email" required class="field" placeholder="you@youracademy.com" />
+      <p class="hidden text-[0.8125rem] text-danger" data-error-for="email"></p>
+    </div>
+    <div class="grid gap-1.5">
+      <label for={`${id}-org`} class="text-[0.875rem] font-medium text-ink">Academy or facility</label>
+      <input id={`${id}-org`} name="organisation" type="text" autocomplete="organization" required class="field" placeholder="Name of your academy" />
+      <p class="hidden text-[0.8125rem] text-danger" data-error-for="organisation"></p>
+    </div>
+    <div class="grid gap-1.5">
+      <label for={`${id}-role`} class="text-[0.875rem] font-medium text-ink">Your role</label>
+      <select id={`${id}-role`} name="role" required class="field">
+        <option value="" selected disabled>Choose one</option>
+        {ROLES.map((r) => <option value={r}>{r}</option>)}
+      </select>
+      <p class="hidden text-[0.8125rem] text-danger" data-error-for="role"></p>
+    </div>
+    <div class="grid gap-1.5">
+      <label for={`${id}-country`} class="text-[0.875rem] font-medium text-ink">Country</label>
+      <select id={`${id}-country`} name="country" required class="field">
+        <option value="" selected disabled>Choose one</option>
+        {COUNTRIES.map((c) => <option value={c}>{c}</option>)}
+      </select>
+      <p class="hidden text-[0.8125rem] text-danger" data-error-for="country"></p>
+    </div>
+  </div>
+
+  {!compact && (
+    <div class="grid gap-1.5">
+      <label for={`${id}-notes`} class="text-[0.875rem] font-medium text-ink">
+        What do you run today, and what are you trying to change? <span class="font-normal text-muted">(optional)</span>
+      </label>
+      <textarea id={`${id}-notes`} name="notes" rows="4" maxlength="1000" class="field min-h-28 resize-y py-3" placeholder="Centres, sports, current software, the thing that is not working."></textarea>
+    </div>
+  )}
+
+  <!-- Honeypot. Hidden from people; bots tend to fill every field. -->
+  <div class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+    <label for={`${id}-website`}>Website</label>
+    <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <button type="submit" class="btn btn-primary btn-lg" data-submit>Request early access</button>
+    <p class="text-[0.8125rem] text-muted">We reply by email. No list, no sequence. <a href="/legal/privacy" class="link">Privacy</a></p>
+  </div>
+</form>
+
+<style>
+  .field {
+    height: 2.875rem;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-surface);
+    padding-inline: 0.875rem;
+    color: var(--color-ink);
+    transition: border-color 160ms var(--ease-out-quart);
+  }
+  .field::placeholder { color: var(--color-muted); opacity: 1; }
+  .field:hover { border-color: color-mix(in oklab, var(--color-brass) 50%, var(--color-line-strong)); }
+  .field:focus-visible { outline: none; border-color: var(--color-brass); box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brass) 25%, transparent); }
+  .field[aria-invalid='true'] { border-color: var(--color-danger); }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238290AB' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    padding-right: 2.25rem;
+  }
+  select.field:invalid { color: var(--color-muted); }
+  select.field option { color: var(--color-ink); background: var(--color-surface); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-waitlist]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const fieldError = (name: string, msg?: string) => {
+      const el = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+      const input = form.elements.namedItem(name) as HTMLElement | null;
+      if (el) { el.textContent = msg ?? ''; el.classList.toggle('hidden', !msg); }
+      if (input) { if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid'); }
+    };
+    const showStatus = (msg: string, kind: 'error' | 'ok') => {
+      status.textContent = msg;
+      status.className = `rounded-md border px-4 py-3 text-[0.9375rem] ${kind === 'ok' ? 'border-ok/50 text-ink' : 'border-danger/50 text-ink'}`;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ['email', 'organisation', 'role', 'country'].forEach((n) => fieldError(n));
+      const data = Object.fromEntries(new FormData(form).entries());
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = (await res.json().catch(() => ({}))) as { ok?: boolean; emailed?: boolean; error?: string; fields?: Record<string, string> };
+        if (res.ok && body.ok) {
+          form.querySelectorAll<HTMLElement>('div, button').forEach((el) => { if (el !== status && !el.contains(status)) el.hidden = true; });
+          showStatus(body.emailed === false
+            ? 'Thank you — we have your request and a person will reply. The confirmation email could not be sent just now, so there is nothing to look for in your inbox.'
+            : 'Thank you — we have your request. A confirmation is on its way to your inbox, and a person will reply.', 'ok');
+          status.focus?.();
+          return;
+        }
+        if (body.fields) {
+          Object.entries(body.fields).forEach(([k, v]) => fieldError(k, v));
+          const first = Object.keys(body.fields)[0];
+          (form.elements.namedItem(first) as HTMLElement | null)?.focus();
+        }
+        showStatus(body.error ?? 'Something went wrong. Email hello@watzaura.com and we will add you by hand.', 'error');
+      } catch {
+        showStatus('We could not reach the server. Check your connection, or email hello@watzaura.com.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request early access';
+      }
+    });
+  });
+</script>

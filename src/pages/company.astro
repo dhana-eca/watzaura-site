@@ -1,0 +1,56 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import Items from '@/components/Items.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Wordmark from '@/components/Wordmark.astro';
+
+const { data } = (await getEntry('pages', 'company'))!;
+const s = data.sections;
+---
+
+<Base title={data.title} description={data.description}>
+  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} size="t-1" />
+
+  <Section>
+    <SectionHead eyebrow={s.thesis.eyebrow} heading={s.thesis.heading} body={s.thesis.body} />
+    <Items items={s.thesis.items!} cols={4} class="mt-12" />
+  </Section>
+
+  <Section tone="surface">
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-5">
+        <SectionHead eyebrow={s.facts.eyebrow} heading={s.facts.heading} size="t-2" />
+        <div class="mt-8 flex flex-col gap-4">
+          <Wordmark which="watzaura" size="lg" />
+          <Wordmark which="plinth" size="lg" />
+          <p class="max-w-sm text-[0.8125rem] text-muted">Wordmarks set in Fraunces. No separate logo exists yet; these are the marks used across the site.</p>
+        </div>
+      </div>
+      <dl class="grid self-start lg:col-span-7">
+        {s.facts.items!.map((f) => (
+          <div class="grid gap-1 border-t border-line py-4 last:border-b sm:grid-cols-[10rem_1fr] sm:gap-6">
+            <dt class="ui-label pt-1">{f.meta}</dt>
+            <dd class="text-[1.0625rem] text-ink">
+              {f.href ? <a href={f.href} class="link">{f.title}</a> : f.title}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </Section>
+
+  <Section tight>
+    <SectionHead eyebrow={s.contact.eyebrow} heading={s.contact.heading} body={s.contact.body} size="t-2">
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href={s.contact.cta!.href} class="btn btn-primary">{s.contact.cta!.label}</a>
+        <a href="mailto:hello@watzaura.com" class="btn btn-secondary">hello@watzaura.com</a>
+      </div>
+    </SectionHead>
+  </Section>
+
+  <CtaBand />
+</Base>

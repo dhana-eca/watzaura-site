@@ -1,0 +1,24 @@
+---
+/** Eyebrow + heading + optional lede/body, left-aligned, used at the top of every section. */
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  lede?: string;
+  level?: 'h2' | 'h3';
+  size?: 't-1' | 't-2' | 't-3';
+  class?: string;
+  /** Max width of the text column. */
+  narrow?: boolean;
+}
+const { eyebrow, heading, body, lede, level = 'h2', size = 't-1', class: className = '', narrow = true } = Astro.props;
+const Tag = level;
+---
+
+<div class:list={[narrow && 'max-w-3xl', className]}>
+  {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
+  {heading && <Tag class={size}>{heading}</Tag>}
+  {lede && <p class="lede mt-5">{lede}</p>}
+  {body && <p class="mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-ink-2">{body}</p>}
+  <slot />
+</div>
