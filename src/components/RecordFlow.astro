@@ -6,7 +6,7 @@
  * and not at all under prefers-reduced-motion. Synthetic data.
  */
 import Sparkline from './ui/Sparkline.astro';
-interface Step { meta: string; title: string; body: string }
+interface Step { meta?: string; title: string; body?: string }
 interface Props { steps: readonly Step[] }
 const { steps } = Astro.props;
 ---
@@ -27,7 +27,7 @@ const { steps } = Astro.props;
         <li class="flow-panel min-w-0" style={`--k:${k}`}>
           <div class="mb-3 flex items-center gap-2">
             <span class="flow-node inline-block size-2.5 rounded-full border border-line-strong bg-ground" aria-hidden="true"></span>
-            <span class="ui-num text-[0.75rem] text-brass">{s.meta}</span>
+            <span class="ui-num text-[0.75rem] text-brass">{s.meta ?? String(k + 1).padStart(2, '0')}</span>
             <h3 class="t-3 text-ink">{s.title}</h3>
           </div>
           <div class="flow-card rounded-lg border border-line bg-surface p-3 text-[0.75rem] text-ink-2">
@@ -90,9 +90,9 @@ const { steps } = Astro.props;
 
   <!-- Stacked list for smaller screens -->
   <ol class="grid gap-0 lg:hidden">
-    {steps.map((it) => (
+    {steps.map((it, i) => (
       <li class="grid grid-cols-[3rem_1fr] gap-4 border-t border-line py-5 last:border-b">
-        <span class="ui-num text-[0.875rem] text-brass">{it.meta}</span>
+        <span class="ui-num text-[0.875rem] text-brass">{it.meta ?? String(i + 1).padStart(2, '0')}</span>
         <div>
           <h3 class="t-3 text-ink">{it.title}</h3>
           <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-2">{it.body}</p>

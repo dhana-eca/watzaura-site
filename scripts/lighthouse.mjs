@@ -37,7 +37,7 @@ try {
     console.log(`${p.padEnd(26)} perf ${row.perf}  a11y ${row.a11y}  bp ${row.bp}  seo ${row.seo}  LCP ${row.lcp}  CLS ${row.cls}  TBT ${row.tbt}`);
   }
 } finally {
-  await chrome.kill();
+  chrome.kill();
   server?.kill();
 }
 const md = ['| Page | Performance | Accessibility | Best practices | SEO | LCP | CLS | TBT |', '|---|---|---|---|---|---|---|---|', ...rows.map((r) => `| ${r.page} | ${r.perf} | ${r.a11y} | ${r.bp} | ${r.seo} | ${r.lcp} | ${r.cls} | ${r.tbt} |`)].join('\n');
