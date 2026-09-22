@@ -99,18 +99,18 @@ Mobile preset, simulated throttling, Lighthouse 13.5, measured against the live 
 | / | 99 | 100 | 100 | 100 |
 | /product | 99 | 100 | 100 | 100 |
 | /product/operations | 98 | 100 | 100 | 100 |
-| /product/development | 96 | 100 | 100 | 100 |
+| /product/development | 95 | 100 | 100 | 100 |
 | /product/mobile | 98 | 100 | 100 | 100 |
 | /who-its-for | 98 | 100 | 100 | 100 |
 | /built-at-elite | 100 | 100 | 100 | 100 |
 | /switch | 98 | 100 | 100 | 100 |
-| /pricing | 98 | 100 | 100 | 100 |
+| /pricing | 100 | 100 | 100 | 100 |
 | /company | 97 | 100 | 100 | 100 |
-| /early-access | 94 | 100 | 100 | 100 |
+| /early-access | 100 | 100 | 100 | 100 |
 | /legal/privacy | 99 | 100 | 100 | 100 |
 | /legal/account-deletion | 99 | 100 | 100 | 100 |
 
-LCP 1.5–2.3 s (2.7 s on /early-access, the one server-rendered page), CLS 0, TBT ≤ 10 ms. All motion is CSS on transform/opacity; every animated element is complete at rest, and nothing runs under prefers-reduced-motion.
+LCP 1.5–2.5 s, CLS 0, TBT ≤ 50 ms. All motion is CSS on transform/opacity; every animated element is complete at rest, and nothing runs under prefers-reduced-motion.
 
 Contrast ratios measured against the navy ground (`#080D18`): ink 17.3:1, ink-2 12.1:1, muted 6.0:1 (5.4:1 on surface, 4.9:1 on surface-2), brass 8.9:1, ground-on-brass buttons 8.9:1. All AA; all body text AAA.
 
