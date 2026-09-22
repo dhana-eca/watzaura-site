@@ -1,0 +1,150 @@
+---
+/**
+ * "Inside Plinth": a bento of small, self-contained pieces of the product.
+ * Every tile is complete at rest; when it scrolls into view it replays once
+ * (bars fill, chips flip, a notification drops). The centre clocks are live —
+ * real local time in each of the three centres, which is honest automation.
+ * All names and figures are synthetic.
+ */
+import Sparkline from './ui/Sparkline.astro';
+const roster: Array<[string, boolean]> = [['Arjun V.', true], ['Priya N.', true], ['Maya T.', true], ['Rohan N.', false], ['Zac L.', true], ['Ishaan R.', true]];
+const centres = [
+  { name: 'Hoppers Crossing', tz: 'Australia/Melbourne', region: 'VIC · AUD', code: 'HOP' },
+  { name: 'Pakenham', tz: 'Australia/Melbourne', region: 'VIC · AUD', code: 'PAK' },
+  { name: 'Medavakkam', tz: 'Asia/Kolkata', region: 'Chennai · INR', code: 'MED' },
+];
+---
+
+<div class="grid gap-4 md:grid-cols-6" data-tiles>
+  <!-- 1. A rating being written (wide) -->
+  <article class="tile p-5 md:col-span-3" data-tile>
+    <div class="flex items-start justify-between gap-3">
+      <div><p class="ui-label">Coach app · rating</p><p class="mt-0.5 font-medium text-ink">Priya N. · Batting · Week 8</p></div>
+      <span class="ui-num text-[0.6875rem] text-muted">Coach Sam · 42 s</span>
+    </div>
+    <ul class="mt-4 grid gap-2 text-[0.8125rem]">
+      {[['Technique', 7], ['Footwork', 6], ['Shot selection', 5], ['Fitness', 7]].map(([n, v], i) => (
+        <li class="grid grid-cols-[7rem_1fr_1.5rem] items-center gap-3">
+          <span class="text-ink-2">{n}</span>
+          <span class="h-1.5 rounded-full bg-line"><span class="a-fill block h-1.5 rounded-full bg-brass" style={`width:${(Number(v) / 10) * 100}%; --i:${i}`}></span></span>
+          <span class="ui-num a-count text-right text-ink" style={`--i:${i + 2}`}>{v}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-4 text-[0.8125rem] text-ink-2"><span class="text-brass">Next focus</span> — <span class="a-type" style="--ch:38; --i:5">shot selection outside off; leave drill first.</span></p>
+  </article>
+
+  <!-- 2. Roster ticking attendance -->
+  <article class="tile p-5 md:col-span-2" data-tile>
+    <p class="ui-label">Roster · U13 Squad · Sat 4:00</p>
+    <ul class="mt-3 grid gap-1.5 text-[0.8125rem]">
+      {roster.map(([n, here], i) => (
+        <li class="flex items-center justify-between">
+          <span class="text-ink-2">{n}</span>
+          <span class:list={['a-pop rounded-[3px] px-1.5 py-0.5 text-[0.625rem]', here ? 'bg-brass text-ground' : 'border border-line-strong text-muted']} style={`--i:${i}`}>{here ? 'Here' : 'Away'}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-3 flex justify-between text-[0.75rem] text-muted"><span>Attendance</span><span class="ui-num text-ink">5 / 6</span></p>
+  </article>
+
+  <!-- 3. Three centres, live clocks -->
+  <article class="tile p-5 md:col-span-1 md:row-span-2" data-tile>
+    <p class="ui-label">Three centres</p>
+    <ul class="mt-3 grid gap-4">
+      {centres.map((c, i) => (
+        <li class="a-drop border-t border-line pt-3" style={`--i:${i}`}>
+          <p class="ui-num text-[0.6875rem] text-brass">{c.code}</p>
+          <p class="text-[0.8125rem] font-medium text-ink">{c.name}</p>
+          <p class="text-[0.6875rem] text-muted">{c.region}</p>
+          <p class="ui-num mt-1 text-[1rem] text-ink" data-clock={c.tz}>—:—</p>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-4 text-[0.6875rem] text-muted">Local time now. One login, two time zones.</p>
+  </article>
+
+  <!-- 4. Direct debit collecting -->
+  <article class="tile p-5 md:col-span-2" data-tile>
+    <div class="flex items-start justify-between"><div><p class="ui-label">Membership · direct debit</p><p class="mt-0.5 font-medium text-ink">The Nair family</p></div><span class="a-pop rounded-full border border-ok/40 px-2 py-0.5 text-[0.6875rem] text-ok" style="--i:3">Collected</span></div>
+    <ul class="mt-3 grid gap-1.5 text-[0.75rem]">
+      {[['Junior Group · 2 / wk', 'A$58.00', 0], ['Fortnightly · next 21 Oct', '', 1], ['Credits settled this fortnight', '4', 2]].map(([a, b, i]) => (
+        <li class="a-drop flex justify-between border-t border-line pt-1.5" style={`--i:${i}`}><span class="text-ink-2">{a}</span><span class="ui-num text-ink">{b}</span></li>
+      ))}
+    </ul>
+    <p class="mt-3 text-[0.6875rem] text-muted">Pauses, plan changes and the next charge date on the family's account.</p>
+  </article>
+
+  <!-- 5. Push notification arriving -->
+  <article class="tile p-5 md:col-span-3" data-tile>
+    <div class="grid items-center gap-5 sm:grid-cols-[1fr_11rem]">
+      <div>
+        <p class="ui-label">Parent app · push</p>
+        <p class="mt-1 text-[0.9375rem] text-ink">The rating lands on the phone that paid for the session.</p>
+        <p class="mt-2 text-[0.8125rem] text-ink-2">Booking confirmations, reminders and coach ratings reach every device a family has registered — on iOS and Android, from the browser, no store gate.</p>
+      </div>
+      <div class="relative mx-auto w-[11rem] rounded-[1.5rem] border border-line-strong bg-ground p-1.5" aria-hidden="true">
+        <div class="h-[13rem] rounded-[1.1rem] border border-line bg-surface p-2">
+          <p class="ui-num mt-1 text-center text-[1.25rem] text-ink">9:41</p>
+          <div class="a-drop mt-3 rounded-md border border-brass/60 bg-ground p-2 text-[0.625rem]" style="--i:2">
+            <p class="flex items-center gap-1.5 text-ink"><span class="size-1.5 bg-brass"></span>Plinth · now</p>
+            <p class="mt-1 leading-snug text-ink-2">Coach Sam rated Priya's batting this week. Highlight: front-foot drive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- 6. Two-currency invoices -->
+  <article class="tile p-5 md:col-span-3" data-tile>
+    <p class="ui-label">Tax invoices · two countries</p>
+    <div class="mt-3 grid gap-3 sm:grid-cols-2">
+      {[
+        { i: 0, centre: 'Hoppers Crossing', id: 'ABN ●● ●●● ●●● ●●●', cur: 'A$', total: '45.00', tax: 'incl. GST 10%', line: '1:1 coaching · 30 min' },
+        { i: 1, centre: 'Medavakkam', id: 'GSTIN ●●●●●●●●●●●●●●●', cur: '₹', total: '1,200', tax: 'incl. GST 18%', line: 'Group session · 60 min' },
+      ].map((inv) => (
+        <div class="a-drop rounded-md border border-line bg-ground/60 p-3 text-[0.75rem]" style={`--i:${inv.i}`}>
+          <div class="flex justify-between"><span class="font-medium text-ink">Tax invoice</span><span class="ui-num text-muted">#{inv.i === 0 ? 'HOP-0421' : 'MED-0088'}</span></div>
+          <p class="text-muted">{inv.centre} · {inv.id}</p>
+          <p class="mt-2 flex justify-between border-t border-line pt-2"><span class="text-ink-2">{inv.line}</span><span class="ui-num text-ink">{inv.cur}{inv.total}</span></p>
+          <p class="text-right text-[0.6875rem] text-muted">{inv.tax}</p>
+        </div>
+      ))}
+    </div>
+    <p class="mt-3 text-[0.6875rem] text-muted">Example invoices — registrations redacted, figures invented.</p>
+  </article>
+
+  <!-- 7. Progression (wide) -->
+  <article class="tile p-5 md:col-span-3" data-tile>
+    <div class="flex items-start justify-between gap-3"><div><p class="ui-label">Pathway · one term</p><p class="mt-0.5 font-medium text-ink">What the parent sees at renewal</p></div><span class="ui-num text-[0.6875rem] text-muted">8 weeks</span></div>
+    <div class="mt-3 grid grid-cols-[6rem_1fr_3rem] items-center gap-x-3 gap-y-2 text-[0.8125rem]">
+      {[['Technique', [4, 4, 5, 5, 5, 6, 6, 7]], ['Footwork', [3, 4, 4, 5, 5, 5, 6, 6]], ['Fitness', [5, 5, 6, 6, 6, 7, 7, 7]]].map(([n, s], i) => (
+        <>
+          <span class="text-ink-2">{n}</span>
+          <Sparkline values={s as number[]} class="h-6 w-full" />
+          <span class="ui-num a-count text-right text-ink" style={`--i:${i}`}>{(s as number[])[0]} → {(s as number[])[7]}</span>
+        </>
+      ))}
+    </div>
+    <p class="mt-3 text-[0.8125rem] text-ink-2">Progression is visible, so renewal is a decision rather than a chase.</p>
+  </article>
+</div>
+
+<script>
+  // Replay each tile once when it enters the viewport.
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-live'); io.unobserve(e.target); } });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('[data-tile]').forEach((t) => io.observe(t));
+
+  // Live clocks: real local time in each centre.
+  const clocks = document.querySelectorAll<HTMLElement>('[data-clock]');
+  const tick = () => {
+    const now = new Date();
+    clocks.forEach((el) => {
+      el.textContent = new Intl.DateTimeFormat('en-AU', { timeZone: el.dataset.clock, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+    });
+  };
+  tick();
+  setInterval(tick, 15_000);
+</script>

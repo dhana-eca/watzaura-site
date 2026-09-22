@@ -7,6 +7,7 @@ import SectionHead from '@/components/SectionHead.astro';
 import Items from '@/components/Items.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Pathway from '@/components/ui/Pathway.astro';
+import PullQuote from '@/components/PullQuote.astro';
 
 const { data } = (await getEntry('pages', 'development'))!;
 const s = data.sections;
@@ -20,6 +21,7 @@ const s = data.sections;
 
   <Section tight>
     <SectionHead eyebrow={s.why.eyebrow} heading={s.why.heading} body={s.why.body} />
+    <PullQuote class="mt-14" text="A parent pays for progress. Show it to them." />
   </Section>
 
   <Section tone="surface">

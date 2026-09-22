@@ -13,18 +13,18 @@ const s = data.sections;
 ---
 
 <Base title={data.title} description={data.description} product>
-  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} layout="stack">
+  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} layout="stack" backdrop>
     <RecordView />
     <p class="mt-3 text-[0.75rem] text-muted">Rendered illustration with an invented academy and invented players. Not a screenshot of customer data.</p>
   </Hero>
 
   <Section>
-    <SectionHead eyebrow={s.record.eyebrow} heading={s.record.heading} body={s.record.body} />
+    <SectionHead eyebrow={s.record.eyebrow} heading={s.record.heading} body={s.record.body} number="01" />
     <Items items={s.record.items!} cols={4} class="mt-12" />
   </Section>
 
   <Section tone="surface">
-    <SectionHead eyebrow={s.surfaces.eyebrow} heading={s.surfaces.heading} />
+    <SectionHead eyebrow={s.surfaces.eyebrow} heading={s.surfaces.heading} number="02" />
     <div class="mt-12 grid gap-0">
       {s.surfaces.items!.map((it, i) => (
         <article class="grid gap-6 border-t border-line py-10 last:border-b lg:grid-cols-12 lg:gap-8">
@@ -45,7 +45,7 @@ const s = data.sections;
   </Section>
 
   <Section>
-    <SectionHead eyebrow={s.foundations.eyebrow} heading={s.foundations.heading} />
+    <SectionHead eyebrow={s.foundations.eyebrow} heading={s.foundations.heading} number="03" />
     <Items items={s.foundations.items!} cols={2} class="mt-12" />
   </Section>
 

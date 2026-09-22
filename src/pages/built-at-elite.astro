@@ -9,6 +9,7 @@ import Items from '@/components/Items.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import LaneGrid from '@/components/LaneGrid.astro';
 import { centrePhotos } from '@/lib/photos';
+import PullQuote from '@/components/PullQuote.astro';
 
 const { data } = (await getEntry('pages', 'built-at-elite'))!;
 const s = data.sections;
@@ -62,6 +63,7 @@ const s = data.sections;
 
   <Section tone={centrePhotos.length ? 'surface' : 'ground'}>
     <SectionHead eyebrow={s.why.eyebrow} heading={s.why.heading} body={s.why.body} />
+    <PullQuote class="mt-16" text="We ran on the software everyone recommends. It did not know what a player was. So we built the system we could not buy." />
   </Section>
 
   <Section tone="surface">

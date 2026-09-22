@@ -1,5 +1,5 @@
 ---
-/** Eyebrow + heading + optional lede/body, left-aligned, used at the top of every section. */
+/** Eyebrow + heading + optional lede/body, left-aligned. `number` adds a large faint numeral beside it. */
 interface Props {
   eyebrow?: string;
   heading?: string;
@@ -8,14 +8,15 @@ interface Props {
   level?: 'h2' | 'h3';
   size?: 't-1' | 't-2' | 't-3';
   class?: string;
-  /** Max width of the text column. */
   narrow?: boolean;
+  number?: string;
 }
-const { eyebrow, heading, body, lede, level = 'h2', size = 't-1', class: className = '', narrow = true } = Astro.props;
+const { eyebrow, heading, body, lede, level = 'h2', size = 't-1', class: className = '', narrow = true, number } = Astro.props;
 const Tag = level;
 ---
 
-<div class:list={[narrow && 'max-w-3xl', className]}>
+<div class:list={['relative', narrow && 'max-w-3xl', className]}>
+  {number && <span class="numeral mb-6 block" aria-hidden="true">{number}</span>}
   {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
   {heading && <Tag class={size}>{heading}</Tag>}
   {lede && <p class="lede mt-5">{lede}</p>}

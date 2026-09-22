@@ -23,7 +23,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always', // one round trip fewer; the sheet is small once compressed
   },
   security: {
     // Astro rejects cross-site form posts to /api/waitlist (CSRF). For that

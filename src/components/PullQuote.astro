@@ -1,0 +1,9 @@
+---
+/** A large italic line from the site's own positioning — never an attributed quote. */
+interface Props { text: string; class?: string }
+const { text, class: className = '' } = Astro.props;
+---
+
+<div class:list={['relative border-l-2 border-brass pl-6 md:pl-8', className]}>
+  <p class="pull max-w-4xl">{text}</p>
+</div>

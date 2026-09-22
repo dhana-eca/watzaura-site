@@ -1,0 +1,39 @@
+---
+/**
+ * The hero backdrop: a large lane-and-time grid with bookings landing one by
+ * one as the page loads — the product's own motif doing the work. Sits behind
+ * the headline, fades out to the left so the text stays clean. After the
+ * load sequence it is static; under reduced motion it is simply static.
+ */
+const cols = 16;
+const rows = 18;
+const cell = 44;
+const w = cols * cell;
+const h = rows * cell;
+// [col, row, span] — spread so the right two-thirds carry the weight.
+const blocks: Array<[number, number, number]> = [
+  [6, 2, 2], [9, 1, 1], [11, 3, 3], [13, 2, 2], [15, 0, 2],
+  [7, 6, 1], [10, 7, 2], [12, 8, 2], [14, 6, 3], [5, 9, 2],
+  [8, 10, 1], [15, 10, 2], [11, 12, 2], [13, 13, 1], [6, 14, 2], [9, 15, 2], [14, 16, 1],
+];
+const held: Array<[number, number, number]> = [[9, 4, 1], [13, 11, 1], [7, 12, 1], [12, 16, 1]];
+---
+
+<div class="hero-land pointer-events-none absolute inset-y-0 right-0 hidden w-[70%] overflow-hidden lg:block" aria-hidden="true"
+     style="mask-image: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.55) 35%, black 70%); -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.55) 35%, black 70%);">
+  <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} class="absolute right-[-2rem] top-1/2 -translate-y-1/2" style={`width:${w}px;height:${h}px`} fill="none" focusable="false">
+    <g stroke="var(--color-line)" stroke-width="1" shape-rendering="crispEdges" opacity="0.7">
+      {Array.from({ length: cols + 1 }, (_, c) => <line x1={c * cell + 0.5} y1="0" x2={c * cell + 0.5} y2={h} />)}
+      {Array.from({ length: rows + 1 }, (_, r) => <line x1="0" y1={r * cell + 0.5} x2={w} y2={r * cell + 0.5} />)}
+    </g>
+    {held.map(([c, r, s]) => (
+      <rect x={c * cell + 7.5} y={r * cell + 7.5} width={cell - 15} height={s * cell - 15} rx="2" stroke="var(--color-brass)" stroke-opacity="0.45" stroke-dasharray="4 4" />
+    ))}
+    {blocks.map(([c, r, s], i) => (
+      <g class="a-land" style={`--i:${i}; transform-origin: ${c * cell + cell / 2}px ${r * cell + (s * cell) / 2}px; transform-box: fill-box;`}>
+        <rect x={c * cell + 6} y={r * cell + 6} width={cell - 12} height={s * cell - 12} rx="3" fill="var(--color-brass)" fill-opacity={i % 3 === 0 ? 0.6 : i % 3 === 1 ? 0.42 : 0.28} />
+        <rect x={c * cell + 6} y={r * cell + 6} width={cell - 12} height="3" rx="1.5" fill="var(--color-brass-light)" fill-opacity="0.55" />
+      </g>
+    ))}
+  </svg>
+</div>

@@ -1,0 +1,148 @@
+---
+/**
+ * The one-record argument as a diagram: five surfaces on one track, and the
+ * athlete's card travelling across them. Every panel is complete at rest; the
+ * travelling token and the highlight run only while the section is on screen,
+ * and not at all under prefers-reduced-motion. Synthetic data.
+ */
+import Sparkline from './ui/Sparkline.astro';
+interface Step { meta: string; title: string; body: string }
+interface Props { steps: readonly Step[] }
+const { steps } = Astro.props;
+---
+
+<div class="record-flow" data-flow>
+  <!-- Track -->
+  <div class="relative hidden lg:block">
+    <div class="absolute left-[10%] right-[10%] top-[1.375rem] h-px bg-line" aria-hidden="true">
+      <div class="absolute inset-y-0 left-0 w-full origin-left bg-brass/60 flow-line" aria-hidden="true"></div>
+    </div>
+    <div class="flow-token absolute top-0 w-[20%]" aria-hidden="true">
+      <div class="mx-auto flex w-fit items-center gap-2 rounded-md border border-brass bg-ground px-2.5 py-1.5 text-[0.75rem] text-ink shadow-[0_10px_30px_-10px_rgb(224_164_92/0.6)]">
+        <span class="size-2 bg-brass"></span>Priya N. · one record
+      </div>
+    </div>
+    <ol class="grid grid-cols-5 gap-4 pt-14">
+      {steps.map((s, k) => (
+        <li class="flow-panel min-w-0" style={`--k:${k}`}>
+          <div class="mb-3 flex items-center gap-2">
+            <span class="flow-node inline-block size-2.5 rounded-full border border-line-strong bg-ground" aria-hidden="true"></span>
+            <span class="ui-num text-[0.75rem] text-brass">{s.meta}</span>
+            <h3 class="t-3 text-ink">{s.title}</h3>
+          </div>
+          <div class="flow-card rounded-lg border border-line bg-surface p-3 text-[0.75rem] text-ink-2">
+            {k === 0 && (
+              <div>
+                <p class="ui-label">Tue 14 Oct · Lane 1</p>
+                <div class="mt-2 rounded-[3px] border border-brass bg-brass px-2 py-1.5 font-medium text-ground">5:30 · Priya N. · 1:1 Coach Sam</div>
+                <p class="mt-2 flex justify-between"><span>Paid · card</span><span class="ui-num text-ink">A$45.00</span></p>
+              </div>
+            )}
+            {k === 1 && (
+              <div>
+                <p class="ui-label">Roster · U13 Squad</p>
+                <ul class="mt-2 grid gap-1">
+                  {[['Arjun V.', true], ['Priya N.', true], ['Rohan N.', false]].map(([n, here]) => (
+                    <li class="flex items-center justify-between"><span class:list={n === 'Priya N.' ? 'text-ink' : ''}>{n}</span><span class:list={['rounded-[2px] px-1.5 py-0.5 text-[0.625rem]', here ? 'bg-brass text-ground' : 'border border-line-strong text-muted']}>{here ? 'Here' : 'Away'}</span></li>
+                  ))}
+                </ul>
+                <p class="mt-2 text-muted">Diary · Sun · 40 min at home</p>
+              </div>
+            )}
+            {k === 2 && (
+              <div>
+                <p class="ui-label">Rating · Batting · W8</p>
+                <ul class="mt-2 grid gap-1.5">
+                  {[['Technique', 7], ['Footwork', 6], ['Shot sel.', 5]].map(([n, v]) => (
+                    <li class="grid grid-cols-[4.2rem_1fr_1rem] items-center gap-1.5"><span>{n}</span><span class="h-1 rounded-full bg-line"><span class="block h-1 rounded-full bg-brass" style={`width:${(Number(v) / 10) * 100}%`}></span></span><span class="ui-num text-right text-ink">{v}</span></li>
+                  ))}
+                </ul>
+                <p class="mt-2 leading-snug"><span class="text-brass">Next</span> — leave drill outside off.</p>
+              </div>
+            )}
+            {k === 3 && (
+              <div>
+                <p class="ui-label">Program · assigned</p>
+                <p class="mt-1 text-ink">Front-foot drive block</p>
+                <ul class="mt-1.5 grid gap-1">
+                  {['Shadow drive', 'Drop-feed drive', 'Machine · 95', 'Leave drill', 'Match scenario'].map((t, i) => (
+                    <li class="flex items-center gap-1.5"><span class:list={['size-2.5 rounded-[2px] border', i < 3 ? 'border-brass bg-brass' : 'border-line-strong']}></span><span class:list={i < 3 ? '' : 'text-muted'}>{t}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {k === 4 && (
+              <div>
+                <p class="ui-label">Parent app · Priya</p>
+                <div class="mt-2 flex items-end justify-between gap-2">
+                  <div><p class="text-ink">Technique</p><p class="text-muted"><span class="ui-num">4</span> → <span class="ui-num text-ink">7</span> in 8 weeks</p></div>
+                  <Sparkline values={[4, 4, 5, 5, 5, 6, 6, 7]} class="h-7 w-16" />
+                </div>
+                <p class="mt-2 flex justify-between"><span>Membership</span><span class="text-ok">Renewed</span></p>
+              </div>
+            )}
+          </div>
+          <p class="mt-3 text-[0.875rem] leading-relaxed text-ink-2">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <!-- Stacked list for smaller screens -->
+  <ol class="grid gap-0 lg:hidden">
+    {steps.map((it) => (
+      <li class="grid grid-cols-[3rem_1fr] gap-4 border-t border-line py-5 last:border-b">
+        <span class="ui-num text-[0.875rem] text-brass">{it.meta}</span>
+        <div>
+          <h3 class="t-3 text-ink">{it.title}</h3>
+          <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-2">{it.body}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  /* 14 s cycle, five 2.8 s stops. Paused until the section is on screen. */
+  .flow-token, .flow-panel, .flow-line { animation-play-state: paused; }
+  .running .flow-token, .running .flow-panel, .running .flow-line { animation-play-state: running; }
+  .flow-token { opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .flow-token { animation: token 14s var(--ease-out-quart) infinite; opacity: 1; }
+    .flow-line { transform: scaleX(0); animation: line 14s linear infinite; }
+    .flow-panel { animation: panel 14s linear infinite; animation-delay: calc(var(--k) * -2.8s); }
+  }
+  @keyframes token {
+    0%, 14% { transform: translateX(0); }
+    20%, 34% { transform: translateX(100%); }
+    40%, 54% { transform: translateX(200%); }
+    60%, 74% { transform: translateX(300%); }
+    80%, 96% { transform: translateX(400%); opacity: 1; }
+    98% { transform: translateX(400%); opacity: 0; }
+    99% { transform: translateX(0); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes line {
+    0% { transform: scaleX(0.1); }
+    80%, 96% { transform: scaleX(0.9); }
+    100% { transform: scaleX(0.1); }
+  }
+  /* Panel k is "current" for the first 20% of its (offset) cycle. */
+  @keyframes panel {
+    0%, 19% { --on: 1; }
+    20%, 100% { --on: 0; }
+  }
+  .flow-panel .flow-card { transition: border-color 400ms var(--ease-out-quart), box-shadow 400ms var(--ease-out-quart), transform 400ms var(--ease-out-quart); }
+  .flow-panel .flow-node { transition: background-color 300ms, border-color 300ms; }
+  .running .flow-panel { --on: 0; }
+  .running .flow-panel[style] .flow-card { border-color: color-mix(in oklab, var(--color-brass) calc(var(--on, 0) * 100%), var(--color-line)); box-shadow: 0 0 0 calc(var(--on, 0) * 1px) color-mix(in oklab, var(--color-brass) 40%, transparent), 0 calc(var(--on, 0) * 20px) 40px -24px rgb(224 164 92 / 0.5); transform: translateY(calc(var(--on, 0) * -3px)); }
+  .running .flow-panel .flow-node { background-color: color-mix(in oklab, var(--color-brass) calc(var(--on, 0) * 100%), var(--color-ground)); border-color: color-mix(in oklab, var(--color-brass) calc(var(--on, 0) * 100%), var(--color-line-strong)); }
+</style>
+
+<script>
+  // Run the loop only while it is on screen; register --on so it interpolates.
+  try { CSS.registerProperty({ name: '--on', syntax: '<number>', inherits: false, initialValue: '0' }); } catch {}
+  const flows = document.querySelectorAll('[data-flow]');
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => e.target.classList.toggle('running', e.isIntersecting)), { threshold: 0.25 });
+  flows.forEach((f) => io.observe(f));
+</script>

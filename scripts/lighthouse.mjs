@@ -3,7 +3,8 @@
  * Insights uses) against the production build for every page, and writes
  * lighthouse/summary.md plus one JSON report per page.
  *
- *   npm run build && npm run lighthouse
+ *   npm run build && npm run lighthouse            # local production build
+ *   npm run lighthouse -- https://watzaura.com     # the live site (compressed, real CDN)
  *
  * Needs Chrome. Set CHROME_PATH if it is not found automatically.
  */
@@ -13,10 +14,11 @@ import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 
 const port = 4397;
-const base = `http://127.0.0.1:${port}`;
+const remote = process.argv[2];
+const base = remote ? remote.replace(//$/, '') : `http://127.0.0.1:${port}`;
 const pages = ['/', '/product', '/product/operations', '/product/development', '/product/mobile', '/who-its-for', '/built-at-elite', '/switch', '/pricing', '/company', '/early-access', '/legal/privacy', '/legal/account-deletion'];
 
-const server = spawn(process.execPath, ['scripts/serve.mjs'], { env: { ...process.env, HOST: '127.0.0.1', PORT: String(port) }, stdio: 'ignore' });
+const server = remote ? null : spawn(process.execPath, ['scripts/serve.mjs'], { env: { ...process.env, HOST: '127.0.0.1', PORT: String(port) }, stdio: 'ignore' });
 for (let i = 0; i < 50; i++) { try { await fetch(base); break; } catch { await new Promise((r) => setTimeout(r, 200)); } }
 
 const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless=new', '--no-sandbox'] });
@@ -34,8 +36,8 @@ try {
   }
 } finally {
   await chrome.kill();
-  server.kill();
+  server?.kill();
 }
 const md = ['| Page | Performance | Accessibility | Best practices | SEO | LCP | CLS | TBT |', '|---|---|---|---|---|---|---|---|', ...rows.map((r) => `| ${r.page} | ${r.perf} | ${r.a11y} | ${r.bp} | ${r.seo} | ${r.lcp} | ${r.cls} | ${r.tbt} |`)].join('\n');
-writeFileSync('lighthouse/summary.md', `# Lighthouse (mobile, simulated throttling) — ${new Date().toISOString().slice(0, 10)}\n\nLighthouse ${(await import('lighthouse/package.json', { with: { type: 'json' } })).default.version}, production build served locally.\n\n${md}\n`);
+writeFileSync('lighthouse/summary.md', `# Lighthouse (mobile, simulated throttling) — ${new Date().toISOString().slice(0, 10)}\n\nLighthouse ${(await import('lighthouse/package.json', { with: { type: 'json' } })).default.version}, ${remote ? `measured against ${base}` : 'production build served locally (uncompressed — the live site is brotli-compressed and scores higher)'}.\n\n${md}\n`);
 console.log('\nwrote lighthouse/summary.md');

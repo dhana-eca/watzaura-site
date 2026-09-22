@@ -1,23 +1,26 @@
 ---
 /**
- * Page hero. Left column: eyebrow, heading, lede, CTAs. Right column (optional
- * slot): a rendered product visual. Never 100vh — sized by its content.
+ * Page hero. Left column: eyebrow, heading, lede, CTAs. Slot: a rendered
+ * product visual, beside ('split') or below ('stack') the text. Never 100vh —
+ * sized by its content. `backdrop` adds the living lane grid behind it.
  */
+import HeroGrid from './HeroGrid.astro';
 interface Props {
   eyebrow?: string;
   heading: string;
   lede?: string;
   ctas?: readonly { label: string; href: string }[];
-  /** 'split' puts the slot beside the text on desktop; 'stack' puts it below. */
   layout?: 'split' | 'stack' | 'text';
   size?: 't-hero' | 't-1';
+  backdrop?: boolean;
 }
-const { eyebrow, heading, lede, ctas = [], layout = 'text', size = 't-hero' } = Astro.props;
+const { eyebrow, heading, lede, ctas = [], layout = 'text', size = 't-hero', backdrop = false } = Astro.props;
 const hasVisual = layout !== 'text';
 ---
 
-<section class="relative overflow-hidden border-b border-line">
-  <div class:list={['wrap grid gap-12 py-16 md:py-24', layout === 'split' && 'lg:grid-cols-12 lg:items-center lg:gap-10']}>
+<section class:list={['relative overflow-hidden border-b border-line', backdrop && 'textured']}>
+  {backdrop && <HeroGrid />}
+  <div class:list={['wrap relative grid gap-12 py-16 md:py-24', layout === 'split' && 'lg:grid-cols-12 lg:items-center lg:gap-10']}>
     <div class:list={[layout === 'split' ? 'lg:col-span-6' : 'max-w-4xl']}>
       {eyebrow && <p class="eyebrow rise mb-5" style="--i:0">{eyebrow}</p>}
       <h1 class:list={[size, 'rise']} style="--i:1">{heading}</h1>
@@ -31,8 +34,9 @@ const hasVisual = layout !== 'text';
       )}
     </div>
     {hasVisual && (
-      <div class:list={['rise min-w-0', layout === 'split' && 'lg:col-span-6']} style="--i:4">
-        <slot />
+      <div class:list={['rise relative min-w-0', layout === 'split' && 'lg:col-span-6']} style="--i:4">
+        {backdrop && <div class="glow" aria-hidden="true"></div>}
+        <div class="relative"><slot /></div>
       </div>
     )}
   </div>
