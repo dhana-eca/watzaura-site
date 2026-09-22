@@ -21,7 +21,6 @@ jobs:
           test -n "$DIGEST_SECRET" || { echo "DIGEST_SECRET secret is not set"; exit 1; }
           code=$(curl -sS -o body.json -w '%{http_code}' -X POST \
             -H "Authorization: Bearer $DIGEST_SECRET" \
-            -H "Content-Type: application/json" -d "{}" 
-            "https://watzaura.com/api/waitlist/digest?days=7")
+            -H "Content-Type: application/json" -d "{}" \n            "https://watzaura.com/api/waitlist/digest?days=7")
           echo "HTTP $code"; cat body.json; echo
           test "$code" = "200"
