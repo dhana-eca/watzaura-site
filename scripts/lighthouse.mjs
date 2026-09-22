@@ -15,7 +15,7 @@ import * as chromeLauncher from 'chrome-launcher';
 
 const port = 4397;
 const remote = process.argv[2];
-const base = remote ? remote.replace(//$/, '') : `http://127.0.0.1:${port}`;
+const base = remote ? remote.replace(/[/]$/, '') : `http://127.0.0.1:${port}`;
 const pages = ['/', '/product', '/product/operations', '/product/development', '/product/mobile', '/who-its-for', '/built-at-elite', '/switch', '/pricing', '/company', '/early-access', '/legal/privacy', '/legal/account-deletion'];
 
 const server = remote ? null : spawn(process.execPath, ['scripts/serve.mjs'], { env: { ...process.env, HOST: '127.0.0.1', PORT: String(port) }, stdio: 'ignore' });
