@@ -83,25 +83,25 @@ DNS: an `A`/`CNAME` for `watzaura.com` and `www` to the host, and Resend's DKIM/
 
 ## Measured Lighthouse scores
 
-Mobile preset, simulated throttling, production build served locally, Lighthouse 13.5 — full table in `lighthouse/summary.md`, regenerate with `npm run lighthouse`.
+Mobile preset, simulated throttling, Lighthouse 13.5, measured against the live site (https://watzaura.com, brotli-compressed by Render) on 22 Sep 2026 — full table in `lighthouse/summary.md`. Regenerate with `npm run lighthouse -- https://watzaura.com`; the local variant (`npm run lighthouse`) serves the build uncompressed and scores a few points lower.
 
 | Page | Performance | Accessibility | Best practices | SEO |
 |---|---|---|---|---|
-| / | 97 | 100 | 100 | 100 |
+| / | 99 | 100 | 100 | 100 |
 | /product | 99 | 100 | 100 | 100 |
-| /product/operations | 99 | 100 | 100 | 100 |
-| /product/development | 99 | 100 | 100 | 100 |
-| /product/mobile | 99 | 100 | 100 | 100 |
-| /who-its-for | 99 | 100 | 100 | 100 |
-| /built-at-elite | 98 | 100 | 100 | 100 |
+| /product/operations | 98 | 100 | 100 | 100 |
+| /product/development | 96 | 100 | 100 | 100 |
+| /product/mobile | 98 | 100 | 100 | 100 |
+| /who-its-for | 98 | 100 | 100 | 100 |
+| /built-at-elite | 100 | 100 | 100 | 100 |
 | /switch | 98 | 100 | 100 | 100 |
 | /pricing | 98 | 100 | 100 | 100 |
-| /company | 98 | 100 | 100 | 100 |
-| /early-access | 98 | 100 | 100 | 100 |
-| /legal/privacy | 98 | 100 | 100 | 100 |
-| /legal/account-deletion | 98 | 100 | 100 | 100 |
+| /company | 97 | 100 | 100 | 100 |
+| /early-access | 94 | 100 | 100 | 100 |
+| /legal/privacy | 99 | 100 | 100 | 100 |
+| /legal/account-deletion | 99 | 100 | 100 | 100 |
 
-LCP 2.1–2.3 s on the throttled mobile profile, CLS 0, TBT 0 ms on every page. The gap to 100 on performance is the LCP text render waiting for the preloaded Fraunces file under simulated 4G; it is not layout or script.
+LCP 1.5–2.3 s (2.7 s on /early-access, the one server-rendered page), CLS 0, TBT ≤ 10 ms. All motion is CSS on transform/opacity; every animated element is complete at rest, and nothing runs under prefers-reduced-motion.
 
 Contrast ratios measured against the navy ground (`#080D18`): ink 17.3:1, ink-2 12.1:1, muted 6.0:1 (5.4:1 on surface, 4.9:1 on surface-2), brass 8.9:1, ground-on-brass buttons 8.9:1. All AA; all body text AAA.
 
