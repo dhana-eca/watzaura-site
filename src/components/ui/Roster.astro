@@ -1,0 +1,35 @@
+---
+/** Operations: a group session roster with attendance marked. Synthetic data. */
+const rows: Array<[string, string, 'Here' | 'Away' | 'Late', string]> = [
+  ['Arjun V.', 'Junior Group · Tue & Sat', 'Here', ''],
+  ['Priya N.', 'Junior Group · Tue & Sat', 'Here', ''],
+  ['Maya T.', 'Junior Group · Sat only', 'Here', 'Plan says Sat — flagged, not blocked'],
+  ['Rohan N.', 'Casual · 4 credits', 'Away', ''],
+  ['Zac L.', 'Junior Group · Tue & Sat', 'Late', ''],
+  ['Ishaan R.', 'Holiday program · day 3', 'Here', ''],
+  ['Neha K.', 'Junior Group · Tue & Sat', 'Here', ''],
+  ['Tom W.', 'Trial · first session', 'Here', 'Trial — convert after session'],
+];
+const chip = { Here: 'bg-brass text-ground', Away: 'border border-line-strong text-muted', Late: 'border border-brass/60 text-brass-light' };
+---
+
+<div class="ui-frame" role="img" aria-label="Illustration of a Plinth group session roster: eight players with attendance marked, a membership mismatch flagged rather than blocked, and a trial player noted.">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line p-4">
+    <div><p class="ui-label">Hoppers · Tue 14 Oct · 4:00–5:00</p><p class="mt-0.5 font-medium text-ink">U13 Squad · Lane 1–2 · Coach Dev</p></div>
+    <div class="flex gap-4 text-[0.75rem]"><span><span class="ui-num text-ink">6</span> here</span><span><span class="ui-num text-ink">1</span> late</span><span><span class="ui-num text-ink">1</span> away</span><span class="text-muted">Waitlist · <span class="ui-num">2</span></span></div>
+  </div>
+  <ul class="divide-y divide-line">
+    {rows.map(([n, plan, st, note]) => (
+      <li class="grid grid-cols-[1fr_auto] items-center gap-3 px-4 py-2.5 sm:grid-cols-[9rem_1fr_auto]">
+        <span class="text-ink">{n}</span>
+        <span class="hidden text-[0.75rem] text-muted sm:block">{plan}{note && <span class="text-brass-light"> · {note}</span>}</span>
+        <span class:list={['rounded-[3px] px-1.5 py-0.5 text-[0.6875rem]', chip[st]]}>{st}</span>
+      </li>
+    ))}
+  </ul>
+  <div class="flex flex-wrap gap-2 border-t border-line p-3 text-[0.75rem]">
+    <span class="rounded-[4px] bg-brass px-2.5 py-1 font-medium text-ground">Save attendance</span>
+    <span class="rounded-[4px] border border-line-strong px-2.5 py-1 text-ink-2">Settle credits · 1</span>
+    <span class="rounded-[4px] border border-line-strong px-2.5 py-1 text-ink-2">Message families</span>
+  </div>
+</div>

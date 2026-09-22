@@ -1,0 +1,32 @@
+name: Lighthouse (live site)
+
+on:
+  schedule:
+    - cron: "17 21 * * 0" # Mondays 08:17 Melbourne (AEDT)
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Lighthouse against https://watzaura.com
+        env:
+          LH_MIN_PERF: "95"
+          LH_MIN_OTHER: "100"
+        run: npm run lighthouse -- https://watzaura.com
+      - name: Summary
+        if: always()
+        run: cat lighthouse/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-live
+          path: lighthouse/
+          retention-days: 90

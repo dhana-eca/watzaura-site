@@ -3,12 +3,14 @@
  * Mobile visual: a phone showing the coach's day or the parent's view.
  * Synthetic data. Buttons are inert and hidden from assistive tech.
  */
-interface Props { view?: 'coach' | 'parent'; class?: string }
+interface Props { view?: 'coach' | 'parent' | 'athlete'; class?: string }
 const { view = 'coach', class: className = '' } = Astro.props;
-const label =
-  view === 'coach'
-    ? "Illustration of the Plinth coach app on a phone: today's roster with attendance marked, and a rating ready to write."
-    : "Illustration of the Plinth parent app on a phone: the next session, the child's latest coach rating and the membership.";
+const labels = {
+  coach: "Illustration of the Plinth coach app on a phone: today's roster with attendance marked, and a rating ready to write.",
+  parent: "Illustration of the Plinth parent app on a phone: the next session, the child's latest coach rating and the membership.",
+  athlete: "Illustration of the Plinth athlete app on a phone: this week's focus, the assigned program, the training diary and the next match.",
+};
+const label = labels[view];
 const roster: Array<[string, boolean]> = [['Priya N.', true], ['Arjun V.', true], ['Maya T.', true], ['Rohan N.', false], ['Zac L.', true]];
 ---
 
@@ -45,6 +47,29 @@ const roster: Array<[string, boolean]> = [['Priya N.', true], ['Arjun V.', true]
           <div class="flex justify-between"><span class="font-medium text-ink">Senior HP</span><span class="ui-num text-ink-2">6:30</span></div>
           <p class="text-[0.6875rem] text-muted">Lane 2–3 · 5 players</p>
         </div>
+      </div>
+    ) : view === 'athlete' ? (
+      <div class="px-4 pb-5 pt-3 text-[0.75rem]">
+        <p class="ui-label">My pathway · Batting</p>
+        <p class="mt-0.5 font-display text-[1.0625rem] font-medium text-ink opsz-48">Dev K.</p>
+        <div class="mt-3 rounded-md border border-brass/60 bg-brass/10 p-2.5">
+          <p class="ui-label">This week's focus</p>
+          <p class="mt-1 leading-snug text-ink-2">Leave drill before hitting — shot selection outside off.</p>
+          <p class="mt-1 text-[0.6875rem] text-muted">Coach Sam · Sat</p>
+        </div>
+        <div class="mt-2 rounded-md border border-line p-2.5">
+          <div class="flex justify-between"><span class="text-ink">Front-foot drive block</span><span class="ui-num text-ink-2">3 / 5</span></div>
+          <p class="text-[0.6875rem] text-muted">Next: Leave drill · 20 balls</p>
+        </div>
+        <div class="mt-2 rounded-md border border-line p-2.5">
+          <div class="flex justify-between"><span class="text-ink">Diary</span><span class="ui-num text-ink-2">2 this week</span></div>
+          <p class="text-[0.6875rem] text-muted">Sun · throw-downs · 40 min</p>
+        </div>
+        <div class="mt-2 rounded-md border border-line p-2.5">
+          <div class="flex justify-between"><span class="text-ink">Next match</span><span class="ui-num text-ink-2">Sat 8:30</span></div>
+          <p class="text-[0.6875rem] text-muted">v Hoppers Crossing U15 · home</p>
+        </div>
+        <span class="mt-2 block w-full rounded-[4px] bg-brass py-1.5 text-center text-[0.6875rem] font-medium text-ground" aria-hidden="true">Log training</span>
       </div>
     ) : (
       <div class="px-4 pb-5 pt-3 text-[0.75rem]">

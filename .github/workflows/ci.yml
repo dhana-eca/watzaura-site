@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Check, build, Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      # Local build is served uncompressed, so the performance gate is 90 here;
+      # the live site (brotli) is held to 95 by lighthouse-live.yml.
+      - name: Lighthouse (every page, mobile)
+        env:
+          LH_MIN_PERF: "90"
+          LH_MIN_OTHER: "100"
+        run: npm run lighthouse
+      - name: Summary
+        if: always()
+        run: cat lighthouse/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse
+          path: lighthouse/
+          retention-days: 30

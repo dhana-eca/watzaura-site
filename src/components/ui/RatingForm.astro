@@ -1,0 +1,40 @@
+---
+/** Development: the coach writing this week's rating, plus the note and program panels. Synthetic data. */
+const scores: Array<[string, number]> = [['Technique', 7], ['Footwork', 6], ['Shot selection', 5], ['Running', 6], ['Fitness', 7], ['Mental', 6]];
+---
+
+<div class="ui-frame grid md:grid-cols-[1.15fr_1fr]" role="img" aria-label="Illustration of a Plinth coach rating being written: six scores on a ten-point scale, a highlight, the focus for next week, and beside it a dated coach note with a flag and the program assigned.">
+  <div class="border-b border-line p-4 md:border-b-0 md:border-r">
+    <div class="flex items-start justify-between gap-3"><div><p class="ui-label">Weekly rating · Batting</p><p class="mt-0.5 font-medium text-ink">Priya N. · Week 8 · Coach Sam</p></div><span class="ui-num text-[0.6875rem] text-muted">Sat 11 Oct</span></div>
+    <ul class="mt-3 grid gap-2 text-[0.75rem]">
+      {scores.map(([k, v]) => (
+        <li class="grid grid-cols-[6rem_1fr_1.25rem] items-center gap-3">
+          <span class="text-ink-2">{k}</span>
+          <span class="flex gap-1">{Array.from({ length: 10 }, (_, i) => <span class:list={['h-3 flex-1 rounded-[2px]', i < v ? 'bg-brass' : 'bg-line']}></span>)}</span>
+          <span class="ui-num text-right text-ink">{v}</span>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-3 grid gap-2 text-[0.75rem]">
+      <div class="rounded-md border border-line px-2.5 py-2"><p class="ui-label">Highlight</p><p class="mt-0.5 text-ink-2">Held shape on the front-foot drive against the machine at 95.</p></div>
+      <div class="rounded-md border border-brass/50 px-2.5 py-2"><p class="ui-label text-brass">Focus next week</p><p class="mt-0.5 text-ink-2">Shot selection outside off — leave drill before hitting.</p></div>
+    </div>
+    <div class="mt-3 flex gap-2 text-[0.75rem]"><span class="rounded-[4px] bg-brass px-2.5 py-1 font-medium text-ground">Save · parent sees it</span><span class="rounded-[4px] border border-line-strong px-2.5 py-1 text-ink-2">Internal note</span></div>
+  </div>
+  <div class="grid content-start gap-3 p-4">
+    <div class="rounded-md border border-line p-3 text-[0.75rem]">
+      <div class="flex items-center justify-between"><p class="ui-label">Coach note</p><span class="rounded-[3px] border border-brass/60 px-1.5 py-0.5 text-[0.625rem] text-brass-light">Flagged</span></div>
+      <p class="mt-1 leading-snug text-ink-2">Asked to move to the 5:30 squad next term — ready for it. Director to confirm with family.</p>
+      <p class="mt-1 text-muted">Sat 11 Oct · Coach Sam · internal</p>
+    </div>
+    <div class="rounded-md border border-line p-3 text-[0.75rem]">
+      <div class="flex items-center justify-between"><p class="ui-label">Program assigned</p><span class="ui-num text-muted">3 / 5</span></div>
+      <p class="mt-1 text-ink">Front-foot drive block · 2 weeks</p>
+      <p class="mt-1 text-muted">From the knowledge bank · Coaching plans · assigned to 4 athletes</p>
+    </div>
+    <div class="rounded-md border border-line p-3 text-[0.75rem]">
+      <p class="ui-label">Shared with the family</p>
+      <ul class="mt-1 grid gap-1 text-ink-2"><li>· Leave drill — 20 balls (drill, text)</li><li>· Pre-season nutrition (diet plan, PDF)</li></ul>
+    </div>
+  </div>
+</div>

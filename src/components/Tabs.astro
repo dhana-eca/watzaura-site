@@ -1,0 +1,79 @@
+---
+/**
+ * Accessible tabbed walkthrough. Tabs are buttons in a tablist with roving
+ * focus and arrow-key movement; each panel is a named slot. All panels are in
+ * the HTML (no JS → they stack, still readable); JS shows one at a time.
+ */
+interface Tab { id: string; label: string; blurb?: string }
+interface Props { tabs: readonly Tab[]; label: string; class?: string }
+const { tabs, label, class: className = '' } = Astro.props;
+const uid = `tabs-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+// Slot names are dynamic, so render each panel up front.
+const panels = await Promise.all(tabs.map((t) => (Astro.slots.has(t.id) ? Astro.slots.render(t.id) : Promise.resolve(''))));
+---
+
+<div class:list={['grid gap-6 lg:grid-cols-12 lg:gap-8', className]} data-tabs>
+  <div class="lg:col-span-4" role="tablist" aria-label={label} aria-orientation="vertical">
+    {tabs.map((t, i) => (
+      <button
+        type="button"
+        role="tab"
+        id={`${uid}-tab-${t.id}`}
+        aria-controls={`${uid}-panel-${t.id}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        class="tab group grid w-full grid-cols-[2.5rem_1fr] gap-3 border-t border-line py-4 text-left last:border-b"
+      >
+        <span class="ui-num pt-1 text-[0.8125rem] text-muted transition-colors group-aria-selected:text-brass">{String(i + 1).padStart(2, '0')}</span>
+        <span>
+          <span class="block font-display text-[1.25rem] leading-tight text-ink-2 transition-colors group-aria-selected:text-ink opsz-48">{t.label}</span>
+          {t.blurb && <span class="mt-1 block text-[0.875rem] leading-relaxed text-muted transition-colors group-aria-selected:text-ink-2">{t.blurb}</span>}
+        </span>
+      </button>
+    ))}
+  </div>
+  <div class="min-w-0 lg:col-span-8">
+    {tabs.map((t, i) => (
+      <div role="tabpanel" id={`${uid}-panel-${t.id}`} aria-labelledby={`${uid}-tab-${t.id}`} tabindex="0" class:list={['panel outline-none', i > 0 && 'panel-rest']} set:html={panels[i]} />
+    ))}
+  </div>
+</div>
+
+<style>
+  .tab { cursor: pointer; }
+  .tab[aria-selected='true'] { position: relative; }
+  .tab[aria-selected='true']::before { content: ''; position: absolute; left: -1.25rem; top: 1.1rem; width: 0.5rem; height: 0.5rem; background: var(--color-brass); }
+  @media (min-width: 64rem) { .tab[aria-selected='true']::before { left: -1rem; } }
+  /* Without JS every panel shows, separated; with JS only the selected one. */
+  .panel-rest { margin-top: 2rem; }
+  [data-tabs].js .panel[hidden] { display: none; }
+  [data-tabs].js .panel-rest { margin-top: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-tabs].js .panel:not([hidden]) { animation: panel-in 320ms var(--ease-out-quart) both; }
+  }
+  @keyframes panel-in { from { opacity: 0.4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    root.classList.add('js');
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role=tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role=tabpanel]')];
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+      panels.forEach((p, k) => { p.hidden = k !== i; });
+      if (focus) tabs[i].focus();
+    };
+    select(0);
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        const n = tabs.length;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); select((i + 1) % n, true); }
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); select((i - 1 + n) % n, true); }
+        if (e.key === 'Home') { e.preventDefault(); select(0, true); }
+        if (e.key === 'End') { e.preventDefault(); select(n - 1, true); }
+      });
+    });
+  });
+</script>

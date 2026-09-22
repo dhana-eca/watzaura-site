@@ -8,6 +8,17 @@ import Items from '@/components/Items.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Pathway from '@/components/ui/Pathway.astro';
 import PullQuote from '@/components/PullQuote.astro';
+import Tabs from '@/components/Tabs.astro';
+import Intake from '@/components/ui/Intake.astro';
+import RatingForm from '@/components/ui/RatingForm.astro';
+import Matches from '@/components/ui/Matches.astro';
+
+const walk = [
+  { id: 'intake', label: 'Intake', blurb: 'Profile, the athlete’s own self-rating, then the coach’s baseline and goals.' },
+  { id: 'assess', label: 'Assess', blurb: 'The weekly rating — scores, a highlight, the focus for next week — written from the lane.' },
+  { id: 'match', label: 'Match day', blurb: 'Competition results beside the training that led to them.' },
+  { id: 'progress', label: 'Progress', blurb: 'A term on one screen: ratings over eight weeks, the program, the diary.' },
+];
 
 const { data } = (await getEntry('pages', 'development'))!;
 const s = data.sections;
@@ -24,17 +35,27 @@ const s = data.sections;
     <PullQuote class="mt-14" text="A parent pays for progress. Show it to them." />
   </Section>
 
-  <Section tone="surface">
-    <SectionHead eyebrow={s.pathway.eyebrow} heading={s.pathway.heading} />
-    <Items items={s.pathway.items!} cols={4} class="mt-12" />
+  <Section id="walkthrough" tone="surface">
+    <SectionHead eyebrow="Walkthrough" heading="One athlete, one term, four screens." body="Click through a pathway from intake to progress. Rendered from the product with an invented athlete; nothing here is a real child’s record." number="01" />
+    <Tabs tabs={walk} label="Development walkthrough" class="mt-12">
+      <div slot="intake"><Intake /></div>
+      <div slot="assess"><RatingForm /></div>
+      <div slot="match"><Matches /></div>
+      <div slot="progress"><Pathway /></div>
+    </Tabs>
   </Section>
 
   <Section>
-    <SectionHead eyebrow={s.visibility.eyebrow} heading={s.visibility.heading} />
+    <SectionHead eyebrow={s.pathway.eyebrow} heading={s.pathway.heading} number="02" />
+    <Items items={s.pathway.items!} cols={4} class="mt-12" />
+  </Section>
+
+  <Section tone="surface">
+    <SectionHead eyebrow={s.visibility.eyebrow} heading={s.visibility.heading} number="03" />
     <Items items={s.visibility.items!} cols={3} class="mt-12" />
   </Section>
 
-  <Section tone="surface" tight>
+  <Section tight>
     <SectionHead eyebrow={s.honest.eyebrow} heading={s.honest.heading} body={s.honest.body} size="t-2">
       <a href={s.honest.cta!.href} class="btn btn-secondary mt-7">{s.honest.cta!.label}</a>
     </SectionHead>

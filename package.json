@@ -13,7 +13,10 @@
     "start": "node ./dist/server/entry.mjs",
     "check": "astro check",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "db:migrate": "node scripts/db-migrate.mjs"
+    "db:migrate": "node scripts/db-migrate.mjs",
+    "og": "node scripts/og.mjs",
+    "prebuild": "node -e \"try{require.resolve('@resvg/resvg-js');require('child_process').execSync('node scripts/og.mjs',{stdio:'inherit'})}catch{console.log('og: skipped (dev deps not installed)')}\"",
+    "e2e:waitlist": "node scripts/waitlist-e2e.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",

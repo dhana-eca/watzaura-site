@@ -1,0 +1,32 @@
+---
+/** Operations: composing a broadcast and the reminder log. Synthetic data. */
+const log = [
+  ['Tue 07:00', 'Session reminder · U13 Squad · 8 families', 'email · push', 'Sent'],
+  ['Mon 09:00', 'Payment reminder · 3 overdue', 'email', 'Sent'],
+  ['Sun 18:00', 'Holiday program · day 1 tomorrow', 'email · WhatsApp', 'Sent'],
+  ['Fri 16:30', 'Broadcast · Pakenham closed Sat (pitch works)', 'in-app · email', 'Sent · 212'],
+];
+---
+
+<div class="ui-frame grid md:grid-cols-[1fr_1.1fr]" role="img" aria-label="Illustration of Plinth communications: a broadcast being composed to one centre across in-app, email and WhatsApp, beside a log of reminders that went out.">
+  <div class="border-b border-line p-4 md:border-b-0 md:border-r">
+    <p class="ui-label">New broadcast</p>
+    <div class="mt-3 grid gap-2 text-[0.75rem]">
+      <div class="flex items-center justify-between rounded-md border border-line px-2.5 py-2"><span class="text-muted">To</span><span class="text-ink">One centre · Pakenham</span></div>
+      <div class="flex items-center justify-between rounded-md border border-line px-2.5 py-2"><span class="text-muted">Channels</span><span class="flex gap-1.5">{['In-app', 'Email', 'WhatsApp'].map((c) => <span class="rounded-[3px] bg-brass/15 px-1.5 py-0.5 text-brass-light">{c}</span>)}</span></div>
+      <div class="rounded-md border border-line px-2.5 py-2"><p class="text-ink">Pakenham closed this Saturday</p><p class="mt-1 leading-snug text-ink-2">Lanes are being re-carpeted. Saturday sessions move to Sunday, same times — no action needed, credits carry over.</p></div>
+      <div class="flex items-center justify-between"><span class="text-muted">Recipients · <span class="ui-num text-ink">212</span> families</span><span class="rounded-[4px] bg-brass px-2.5 py-1 font-medium text-ground">Send</span></div>
+    </div>
+  </div>
+  <div class="p-4">
+    <p class="ui-label">Sent · this week</p>
+    <ul class="mt-3 divide-y divide-line text-[0.75rem]">
+      {log.map(([t, what, ch, st]) => (
+        <li class="grid grid-cols-[4.5rem_1fr] gap-2 py-2">
+          <span class="ui-num text-muted">{t}</span>
+          <span><span class="block text-ink">{what}</span><span class="text-muted">{ch} · <span class="text-ok">{st}</span></span></span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

@@ -81,6 +81,15 @@ DNS: an `A`/`CNAME` for `watzaura.com` and `www` to the host, and Resend's DKIM/
 - **Product visuals** are rendered in HTML/CSS (`src/components/ui/`) with an invented academy ("Northgate Cricket Academy") and invented players. Each is labelled as an illustration on the page. They depict what Plinth does today; if the product changes, change them.
 - **Photographs of the centres** — none yet. Add files to `src/assets/centres/` and list them in `src/lib/photos.ts`; `/built-at-elite` then renders the gallery automatically and drops the "photographs only with consent on file" notice. **Do not add an image showing an identifiable child unless a guardian's signed media consent is on file**, and record who checked in the `consent` field.
 
+## Automation
+
+- **CI** (`.github/workflows/ci.yml`) — every push and pull request: `astro check`, build, Lighthouse on all 13 pages with a gate (performance ≥ 90 on the uncompressed local build; accessibility, best practices and SEO must be 100). The table lands in the job summary and the JSON reports are an artifact.
+- **Live Lighthouse** (`lighthouse-live.yml`) — Mondays 08:17 Melbourne, against https://watzaura.com, gate 95 / 100. Also runnable by hand from the Actions tab.
+- **Waitlist digest** (`waitlist-digest.yml`) — Mondays 08:05 Melbourne, POSTs to `/api/waitlist/digest` with the `DIGEST_SECRET` repository secret (must equal the `DIGEST_SECRET` env var on Render). The site emails the week's requests to `WAITLIST_NOTIFY`. It reports failure until a real `RESEND_API_KEY` is set on Render.
+- **Dependabot** — weekly npm updates grouped into `astro` and `tooling`, monthly for Actions.
+- **Social image** — `prebuild` regenerates `public/og/default.png` and the favicons from the script whenever the dev dependencies are installed (locally and in CI); on Render it is skipped and the committed files are served. Edit the headline in `scripts/og.mjs` when the hero copy changes.
+- **Auto-deploy** — Render deploys `main` on every push; DNS and TLS are Render-managed and renew automatically.
+
 ## Measured Lighthouse scores
 
 Mobile preset, simulated throttling, Lighthouse 13.5, measured against the live site (https://watzaura.com, brotli-compressed by Render) on 22 Sep 2026 — full table in `lighthouse/summary.md`. Regenerate with `npm run lighthouse -- https://watzaura.com`; the local variant (`npm run lighthouse`) serves the build uncompressed and scores a few points lower.

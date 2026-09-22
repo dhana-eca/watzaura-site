@@ -1,0 +1,29 @@
+---
+/** Development: match performance beside training. Invented fixtures and figures. */
+const matches: Array<[string, string, string, string]> = [
+  ['Sat 11 Oct', 'v Point Cook U13', '34 (41) · 1/18 (4)', 'Won'],
+  ['Sat 4 Oct', 'v Tarneit U13', '12 (20) · 0/22 (3)', 'Lost'],
+  ['Sat 27 Sep', 'v Altona U13', '48* (52) · dnb', 'Won'],
+];
+---
+
+<div class="ui-frame grid md:grid-cols-[1.2fr_1fr]" role="img" aria-label="Illustration of match performance in Plinth: the last three club matches with batting and bowling figures, the next fixture, and the ladder position, shown beside the training record.">
+  <div class="border-b border-line p-4 md:border-b-0 md:border-r">
+    <div class="flex items-start justify-between"><div><p class="ui-label">Match performance · club</p><p class="mt-0.5 font-medium text-ink">Priya N. · Werribee CC U13</p></div><span class="ui-num text-[0.6875rem] text-muted">via competition platform</span></div>
+    <ul class="mt-3 divide-y divide-line text-[0.75rem]">
+      {matches.map(([d, opp, fig, res]) => (
+        <li class="grid grid-cols-[5rem_1fr_auto] items-center gap-2 py-2">
+          <span class="ui-num text-muted">{d}</span>
+          <span><span class="block text-ink">{opp}</span><span class="ui-num text-ink-2">{fig}</span></span>
+          <span class:list={['text-[0.6875rem]', res === 'Won' ? 'text-ok' : 'text-muted']}>{res}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-2 text-[0.75rem] text-muted">Season · <span class="ui-num text-ink">94</span> runs at <span class="ui-num text-ink">31.3</span> · <span class="ui-num text-ink">1</span> wicket</p>
+  </div>
+  <div class="grid content-start gap-3 p-4 text-[0.75rem]">
+    <div class="rounded-md border border-line p-3"><p class="ui-label">Next fixture</p><p class="mt-1 text-ink">Sat 18 Oct · v Hoppers Crossing U13</p><p class="text-muted">Home · 8:30 am · ladder 3rd v 5th</p></div>
+    <div class="rounded-md border border-line p-3"><p class="ui-label">Ladder</p><p class="mt-1 text-ink"><span class="ui-num">3rd</span> of 8 · <span class="ui-num">4</span> wins · <span class="ui-num">2</span> losses</p></div>
+    <div class="rounded-md border border-brass/50 p-3"><p class="ui-label text-brass">Training this week</p><p class="mt-1 leading-snug text-ink-2">Focus was shot selection outside off — 34 off 41 with two leaves early. The coach sees both on one screen.</p></div>
+  </div>
+</div>

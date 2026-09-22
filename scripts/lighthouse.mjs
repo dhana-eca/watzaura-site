@@ -7,6 +7,8 @@
  *   npm run lighthouse -- https://watzaura.com     # the live site (compressed, real CDN)
  *
  * Needs Chrome. Set CHROME_PATH if it is not found automatically.
+ * Gates: LH_MIN_PERF and LH_MIN_OTHER (accessibility, best practices, SEO)
+ * make the run exit 1 when any page scores below them — used by CI.
  */
 import { spawn } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
