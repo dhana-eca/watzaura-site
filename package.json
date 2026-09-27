@@ -28,7 +28,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^5.18.2",
     "postgres": "^3.4.9",
-    "resend": "^6.28.1",
+    "resend": "^6.29.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
