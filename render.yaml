@@ -1,6 +1,10 @@
-# Render Blueprint for watzaura.com — one small Node web service (static pages
-# + the /api/waitlist endpoint) and a Postgres database for the waitlist.
+# Render Blueprint for www.watzaura.com — one small Node web service (static
+# pages + the /api/waitlist endpoint) and a Postgres database for the waitlist.
 # Secrets marked sync: false are entered in the Render dashboard, not here.
+#
+# Custom domains are NOT in this Blueprint: Render fixes the redirect direction
+# when a domain is created, so www must be added first (the apex is then added
+# automatically and 301s to it). See README → Deployment.
 services:
   - type: web
     name: watzaura-site

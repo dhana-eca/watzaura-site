@@ -16,11 +16,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Lighthouse against https://watzaura.com
+      - name: Lighthouse against https://www.watzaura.com
         env:
           LH_MIN_PERF: "95"
           LH_MIN_OTHER: "100"
-        run: npm run lighthouse -- https://watzaura.com
+        run: npm run lighthouse -- https://www.watzaura.com
       - name: Summary
         if: always()
         run: cat lighthouse/summary.md >> "$GITHUB_STEP_SUMMARY" || true
