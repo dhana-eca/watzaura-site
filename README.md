@@ -1,5 +1,7 @@
 # watzaura.com
 
+The site is served at **https://www.watzaura.com**; the apex `watzaura.com` 301s to it at Render's edge.
+
 Corporate and product site for **Watzaura Infotech Pty Ltd** and its product **Plinth**. Astro 5, Tailwind 4, MDX. Every page is static HTML; one server route (`/api/waitlist`) takes early-access requests, plus `/early-access` is server-rendered so a no-JavaScript submission can come back with its error message.
 
 ## Run and build
@@ -67,11 +69,11 @@ To read the list: `select email, organisation, role, country, notes, created_at 
 
 The build is `dist/client` (static files) plus `dist/server/entry.mjs` (a Node server that serves them and runs the two dynamic routes). Any host that runs Node works.
 
-**Render (recommended — Watzaura already runs the application there).** `render.yaml` is a Blueprint: one starter web service and one free Postgres. In the Render dashboard: New → Blueprint → point at this repo. Then set `RESEND_API_KEY` (marked `sync: false`), add the custom domain `watzaura.com` (and `www`), and let Render issue the certificate. The build command runs `db:migrate`, so the table exists before the first request. Redeploys are automatic on push to `main`.
+**Render (recommended — Watzaura already runs the application there).** `render.yaml` is a Blueprint: one starter web service and one free Postgres. In the Render dashboard: New → Blueprint → point at this repo. Then set `RESEND_API_KEY` (marked `sync: false`) and add the custom domain. **Add `www.watzaura.com` first**: Render then adds the apex itself and redirects it to www. The direction is fixed when the domain is created and there is no API or UI to change it later — to flip it you must delete both domains and re-add, starting with the one you want to be canonical. The build command runs `db:migrate`, so the table exists before the first request. Redeploys are automatic on push to `main`.
 
 **Cloudflare Pages / Netlify.** Swap `@astrojs/node` for `@astrojs/cloudflare` or `@astrojs/netlify` in `astro.config.mjs` (one line), keep `output: 'static'`; the two server routes become a function. The waitlist code uses the `postgres` driver over TCP, which Cloudflare Workers support through Hyperdrive; on Netlify it works as-is.
 
-DNS: an `A`/`CNAME` for `watzaura.com` and `www` to the host, and Resend's DKIM/SPF records for the sending domain.
+DNS (GoDaddy): `A @ 216.24.57.1` and `CNAME www → watzaura-site.onrender.com`. Both records are needed whichever host is canonical — the apex must still resolve to Render for Render to serve the redirect. Plus Resend's DKIM/SPF records for the sending domain.
 
 ## Assets
 
@@ -84,7 +86,7 @@ DNS: an `A`/`CNAME` for `watzaura.com` and `www` to the host, and Resend's DKIM/
 ## Automation
 
 - **CI** (`.github/workflows/ci.yml`) — every push and pull request: `astro check`, build, Lighthouse on all 13 pages with a gate (performance ≥ 90 on the uncompressed local build; accessibility, best practices and SEO must be 100). The table lands in the job summary and the JSON reports are an artifact.
-- **Live Lighthouse** (`lighthouse-live.yml`) — Mondays 08:17 Melbourne, against https://watzaura.com, gate 95 / 100. Also runnable by hand from the Actions tab.
+- **Live Lighthouse** (`lighthouse-live.yml`) — Mondays 08:17 Melbourne, against https://www.watzaura.com, gate 95 / 100. Also runnable by hand from the Actions tab.
 - **Waitlist digest** (`waitlist-digest.yml`) — Mondays 08:05 Melbourne, POSTs to `/api/waitlist/digest` with the `DIGEST_SECRET` repository secret (must equal the `DIGEST_SECRET` env var on Render). The site emails the week's requests to `WAITLIST_NOTIFY`. It reports failure until a real `RESEND_API_KEY` is set on Render.
 - **Dependabot** — weekly npm updates grouped into `astro` and `tooling`, monthly for Actions.
 - **Social image** — `prebuild` regenerates `public/og/default.png` and the favicons from the script whenever the dev dependencies are installed (locally and in CI); on Render it is skipped and the committed files are served. Edit the headline in `scripts/og.mjs` when the hero copy changes.
@@ -92,7 +94,7 @@ DNS: an `A`/`CNAME` for `watzaura.com` and `www` to the host, and Resend's DKIM/
 
 ## Measured Lighthouse scores
 
-Mobile preset, simulated throttling, Lighthouse 13.5, measured against the live site (https://watzaura.com, brotli-compressed by Render) on 22 Sep 2026 — full table in `lighthouse/summary.md`. Regenerate with `npm run lighthouse -- https://watzaura.com`; the local variant (`npm run lighthouse`) serves the build uncompressed and scores a few points lower.
+Mobile preset, simulated throttling, Lighthouse 13.5, measured against the live site (https://www.watzaura.com, brotli-compressed by Render) on 22 Sep 2026 — full table in `lighthouse/summary.md`. Regenerate with `npm run lighthouse -- https://www.watzaura.com`; the local variant (`npm run lighthouse`) serves the build uncompressed and scores a few points lower.
 
 | Page | Performance | Accessibility | Best practices | SEO |
 |---|---|---|---|---|

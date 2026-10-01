@@ -10,8 +10,10 @@ export const site = {
   acn: '702 553 857',
   registered: 'September 2026',
   headOffice: 'Melbourne, Victoria, Australia',
+  /** Registrable domain, without a host. Used to allow both hosts on POSTs. */
   domain: 'watzaura.com',
-  url: 'https://watzaura.com',
+  /** Canonical origin — www. The apex 301s here at Render's edge. */
+  url: 'https://www.watzaura.com',
   email: 'hello@watzaura.com',
   product: {
     name: 'Plinth',

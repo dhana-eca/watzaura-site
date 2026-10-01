@@ -9,7 +9,9 @@ import tailwindcss from '@tailwindcss/vite';
 // runs on the server is /api/waitlist (it opts out with `prerender = false`),
 // which is why the Node adapter is present. See README → Deployment.
 export default defineConfig({
-  site: 'https://watzaura.com',
+  // Canonical host is www. The apex redirects to it at Render's edge, so every
+  // canonical URL, sitemap entry and OG url below is written with www.
+  site: 'https://www.watzaura.com',
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   trailingSlash: 'never',
@@ -31,8 +33,10 @@ export default defineConfig({
     // right, the hosts the site is served on must be listed here.
     checkOrigin: true,
     allowedDomains: [
-      { hostname: 'watzaura.com' },
       { hostname: 'www.watzaura.com' },
+      // The apex is kept here so a request that reaches the app directly (not
+      // via the edge redirect) is still trusted rather than 403'd.
+      { hostname: 'watzaura.com' },
       { hostname: '**.onrender.com' },
       { hostname: 'localhost' },
       { hostname: '127.0.0.1' },

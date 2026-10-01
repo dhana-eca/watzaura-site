@@ -4,7 +4,7 @@
  * lighthouse/summary.md plus one JSON report per page.
  *
  *   npm run build && npm run lighthouse            # local production build
- *   npm run lighthouse -- https://watzaura.com     # the live site (compressed, real CDN)
+ *   npm run lighthouse -- https://www.watzaura.com # the live site (compressed, real CDN)
  *
  * Needs Chrome. Set CHROME_PATH if it is not found automatically.
  * Gates: LH_MIN_PERF and LH_MIN_OTHER (accessibility, best practices, SEO)
