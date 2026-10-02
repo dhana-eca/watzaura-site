@@ -1,0 +1,159 @@
+---
+/**
+ * Hero visual: a modern phone showing the Plinth Home screen as a parent sees
+ * it. Laid out from the real app's Home (greeting + centre, the next booked
+ * session, the three stat tiles, "Book a session", the quick actions and the
+ * bottom bar), restyled in the site's tokens. Invented family, invented data.
+ * Decorative chrome is hidden from assistive tech; the whole thing is one img.
+ */
+import Sparkline from './Sparkline.astro';
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+
+const ring = (v: number, max: number) => {
+  const c = 2 * Math.PI * 15;
+  return { c, off: c * (1 - v / max) };
+};
+const credits = ring(4, 10);
+const upcoming = ring(3, 5);
+
+const icon = {
+  schedule: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/>',
+  players: '<circle cx="9" cy="8" r="3.2"/><path d="M2.6 20c0-3.3 2.9-5.6 6.4-5.6s6.4 2.3 6.4 5.6"/><path d="M16 4.5a3 3 0 0 1 0 6M18 14.6c2 .7 3.4 2.6 3.4 5"/>',
+  development: '<path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/>',
+  membership: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  home: '<path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  book: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+  more: '<circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/>',
+};
+const qacts: Array<[string, keyof typeof icon]> = [['My schedule', 'schedule'], ['My players', 'players'], ['Player Development', 'development'], ['Membership', 'membership']];
+const nav: Array<[string, keyof typeof icon]> = [['Home', 'home'], ['Book', 'book'], ['Bookings', 'schedule'], ['Players', 'players'], ['More', 'more']];
+---
+
+<div class:list={['phone-home relative mx-auto w-[17rem] sm:w-[18.5rem]', className]} role="img"
+     aria-label="Illustration of the Plinth app on a phone: the Home screen a parent sees, with the next booked session, pack credits, an active membership, upcoming sessions and this week's coach rating.">
+  <!-- side buttons -->
+  <span class="absolute -left-[3px] top-[6.5rem] h-7 w-[3px] rounded-l bg-line-strong" aria-hidden="true"></span>
+  <span class="absolute -left-[3px] top-[9rem] h-12 w-[3px] rounded-l bg-line-strong" aria-hidden="true"></span>
+  <span class="absolute -right-[3px] top-[8rem] h-16 w-[3px] rounded-r bg-line-strong" aria-hidden="true"></span>
+
+  <div class="rounded-[2.9rem] bg-gradient-to-b from-line-strong via-line to-line-strong p-[3px] shadow-[0_60px_120px_-40px_rgb(0_0_0/0.95),0_0_0_1px_rgb(255_255_255/0.04)]">
+    <div class="rounded-[2.75rem] bg-black p-[7px]">
+      <div class="relative overflow-hidden rounded-[2.3rem] bg-ground text-[0.75rem]" aria-hidden="true">
+        <!-- status bar + Dynamic Island -->
+        <div class="relative flex h-11 items-center justify-between px-6 text-[0.6875rem] font-semibold text-ink">
+          <span class="ui-num">4:17</span>
+          <span class="absolute left-1/2 top-2.5 h-[1.4rem] w-[5.6rem] -translate-x-1/2 rounded-full bg-black"></span>
+          <span class="flex items-center gap-1">
+            <svg viewBox="0 0 18 12" class="h-2.5 w-3.5" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="0.6"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.6"/><rect x="10" y="3" width="3" height="9" rx="0.6"/><rect x="15" y="0" width="3" height="12" rx="0.6"/></svg>
+            <svg viewBox="0 0 16 12" class="h-2.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 4.2a9.5 9.5 0 0 1 13 0M4 7a6 6 0 0 1 8 0"/><circle cx="8" cy="10" r="0.9" fill="currentColor"/></svg>
+            <span class="flex h-[0.7rem] w-[1.4rem] items-center rounded-[3px] border border-ink/60 p-[1.5px]"><span class="h-full w-[85%] rounded-[1.5px] bg-ink"></span></span>
+          </span>
+        </div>
+
+        <div class="px-4 pb-3">
+          <!-- greeting -->
+          <div class="flex items-start justify-between pt-1">
+            <div>
+              <p class="font-display text-[1.0625rem] font-medium leading-tight text-ink opsz-48 sm:text-[1.25rem]">Good afternoon, Anita</p>
+              <p class="mt-0.5 text-[0.6875rem] text-muted">Hoppers Crossing</p>
+            </div>
+            <span class="relative mt-0.5 grid h-8 w-8 place-items-center rounded-full border border-line text-ink-2">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+              <span class="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-brass"></span>
+            </span>
+          </div>
+
+          <!-- next session -->
+          <div class="mt-3 rounded-xl border border-brass/50 bg-gradient-to-br from-brass/20 to-brass/5 p-3">
+            <div class="flex items-center gap-2.5">
+              <span class="grid h-9 w-9 flex-none place-items-center rounded-lg bg-brass text-ground">
+                <svg viewBox="0 0 24 24" class="h-[1.1rem] w-[1.1rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              </span>
+              <div class="min-w-0">
+                <p class="ui-label text-brass-light">Next · Tue 4:00 pm</p>
+                <p class="truncate font-medium text-ink">U13 Squad · Priya</p>
+                <p class="truncate text-[0.6875rem] text-ink-2">Lane 1–2 · Coach Sam</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- stat tiles -->
+          <div class="mt-2.5 grid grid-cols-3 gap-2">
+            <div class="rounded-xl border border-line bg-surface p-2 text-center">
+              <span class="relative mx-auto block h-11 w-11"><svg viewBox="0 0 36 36" class="h-11 w-11 -rotate-90">
+                <circle cx="18" cy="18" r="15" fill="none" stroke="var(--color-line)" stroke-width="3"/>
+                <circle cx="18" cy="18" r="15" fill="none" stroke="var(--color-brass)" stroke-width="3" stroke-linecap="round" stroke-dasharray={credits.c} stroke-dashoffset={credits.off}/>
+              </svg>
+                <span class="ui-num absolute inset-0 grid place-items-center text-[0.9375rem] font-semibold text-ink">4</span>
+              </span>
+              <p class="mt-1.5 text-[0.625rem] leading-tight text-muted">Credits</p>
+            </div>
+            <div class="rounded-xl border border-line bg-surface p-2 text-center">
+              <span class="mx-auto grid h-11 w-11 place-items-center rounded-full border-[3px] border-ok/80 text-ok">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+              </span>
+              <p class="mt-1.5 text-[0.625rem] leading-tight text-muted">Membership</p>
+            </div>
+            <div class="rounded-xl border border-line bg-surface p-2 text-center">
+              <span class="relative mx-auto block h-11 w-11"><svg viewBox="0 0 36 36" class="h-11 w-11 -rotate-90">
+                <circle cx="18" cy="18" r="15" fill="none" stroke="var(--color-line)" stroke-width="3"/>
+                <circle cx="18" cy="18" r="15" fill="none" stroke="var(--color-brass-light)" stroke-width="3" stroke-linecap="round" stroke-dasharray={upcoming.c} stroke-dashoffset={upcoming.off}/>
+              </svg>
+                <span class="ui-num absolute inset-0 grid place-items-center text-[0.9375rem] font-semibold text-ink">3</span>
+              </span>
+              <p class="mt-1.5 text-[0.625rem] leading-tight text-muted">Upcoming</p>
+            </div>
+          </div>
+
+          <!-- book CTA -->
+          <span class="mt-2.5 flex items-center justify-between rounded-xl bg-surface-2 px-3.5 py-2.5 font-medium text-ink ring-1 ring-line-strong">
+            Book a session
+            <svg viewBox="0 0 24 24" class="h-4 w-4 text-brass" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+
+          <!-- quick actions -->
+          <div class="mt-2.5 grid grid-cols-4 gap-1.5">
+            {qacts.map(([label, k], i) => (
+              <span class="flex flex-col items-center gap-1 text-center">
+                <span class:list={['grid h-10 w-10 place-items-center rounded-xl border', i === 2 ? 'border-brass/60 bg-brass/15 text-brass-light' : 'border-line bg-surface text-ink-2']}>
+                  <svg viewBox="0 0 24 24" class="h-[1.15rem] w-[1.15rem]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icon[k]} />
+                </span>
+                <span class="text-[0.5625rem] leading-tight text-ink-2">{label}</span>
+              </span>
+            ))}
+          </div>
+
+          <!-- this week's rating -->
+          <div class="mt-2.5 rounded-xl border border-line bg-surface p-3">
+            <div class="flex items-center justify-between">
+              <p class="ui-label">Priya · Batting · Wk 8</p>
+              <p class="ui-num text-[0.875rem] font-semibold text-brass-light">7.5</p>
+            </div>
+            <Sparkline values={[5, 5.5, 5.5, 6, 6.5, 6.5, 7, 7.5].map((v) => v - 4.5)} max={3.5} class="mt-1.5 h-7 w-full" />
+            <p class="mt-1 leading-snug text-ink-2"><span class="text-brass">Next</span> — shot selection outside off.</p>
+          </div>
+        </div>
+
+        <!-- bottom bar -->
+        <div class="grid grid-cols-5 border-t border-line bg-surface/90 px-2 pb-4 pt-2 backdrop-blur">
+          {nav.map(([label, k], i) => (
+            <span class:list={['flex flex-col items-center gap-0.5 text-[0.5625rem]', i === 0 ? 'text-brass' : 'text-muted']}>
+              <svg viewBox="0 0 24 24" class="h-[1.05rem] w-[1.05rem]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon[k]} />
+              {label}
+            </span>
+          ))}
+        </div>
+        <span class="absolute bottom-1.5 left-1/2 h-1 w-24 -translate-x-1/2 rounded-full bg-ink/70"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* A gentle 3D lean on wide screens, like a phone propped on a desk. Static;
+     no animation, so reduced motion needs nothing extra. */
+  @media (min-width: 64rem) {
+    .phone-home { transform: perspective(1800px) rotateY(-12deg) rotateX(3deg) rotateZ(1.5deg); }
+  }
+</style>
