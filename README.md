@@ -2,7 +2,7 @@
 
 The site is served at **https://www.watzaura.com**; the apex `watzaura.com` 301s to it at Render's edge.
 
-Corporate and product site for **Watzaura Infotech Pty Ltd** and its product **Plinth**. Astro 5, Tailwind 4, MDX. Every page is static HTML; one server route (`/api/waitlist`) takes early-access requests, plus `/early-access` is server-rendered so a no-JavaScript submission can come back with its error message.
+Corporate and product site for **Watzaura Infotech Pty Limited** and its product **Plinth**. Astro 5, Tailwind 4, MDX. Every page is static HTML; one server route (`/api/waitlist`) takes early-access requests, plus `/early-access` is server-rendered so a no-JavaScript submission can come back with its error message.
 
 ## Run and build
 
