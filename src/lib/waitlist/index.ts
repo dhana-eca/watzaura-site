@@ -107,7 +107,7 @@ function confirmationHtml(s: Submission) {
 <tr><td style="font-family:Georgia,serif;font-size:28px;line-height:1.15;color:#EEF2F9;padding-bottom:16px">We have your request for early access.</td></tr>
 <tr><td style="padding-bottom:16px">Thanks for telling us about <strong style="color:#EEF2F9">${esc(s.organisation)}</strong>. One of the people who built Plinth will read it and reply from this address. There is no automated sequence after this email.</td></tr>
 <tr><td style="padding-bottom:16px">If your academy looks like a fit we will ask a few questions about how you run today and what you are trying to change, and offer a walkthrough on your terms.</td></tr>
-<tr><td style="padding:16px 0;border-top:1px solid #22304C;font-size:14px;color:#8290AB">Watzaura Infotech Pty Ltd · ABN 32 702 553 857 · Melbourne, Australia<br>If you did not request this, reply and we will remove you.</td></tr>
+<tr><td style="padding:16px 0;border-top:1px solid #22304C;font-size:14px;color:#8290AB">Watzaura Infotech Pty Limited · ABN 32 702 553 857 · Melbourne, Australia<br>If you did not request this, reply and we will remove you.</td></tr>
 </table></td></tr></table></body></html>`;
 }
 
@@ -118,7 +118,7 @@ Thanks for telling us about ${s.organisation}. One of the people who built Plint
 
 If your academy looks like a fit we will ask a few questions about how you run today and what you are trying to change, and offer a walkthrough on your terms.
 
-Watzaura Infotech Pty Ltd · ABN 32 702 553 857 · Melbourne, Australia
+Watzaura Infotech Pty Limited · ABN 32 702 553 857 · Melbourne, Australia
 If you did not request this, reply and we will remove you.`;
 }
 

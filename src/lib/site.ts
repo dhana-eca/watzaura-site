@@ -5,7 +5,7 @@
  */
 export const site = {
   name: 'Watzaura',
-  legalName: 'Watzaura Infotech Pty Ltd',
+  legalName: 'Watzaura Infotech Pty Limited',
   abn: '32 702 553 857',
   acn: '702 553 857',
   registered: 'September 2026',
