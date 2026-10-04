@@ -15,6 +15,9 @@ export const site = {
   /** Canonical origin — www. The apex 301s here at Render's edge. */
   url: 'https://www.watzaura.com',
   email: 'hello@watzaura.com',
+  /** Company line (mobile), shown as written in Australia; `phoneIntl` for tel: links and JSON-LD. */
+  phone: '0452 551 758',
+  phoneIntl: '+61 452 551 758',
   product: {
     name: 'Plinth',
     tagline: 'Run your academy. Develop every athlete.',
