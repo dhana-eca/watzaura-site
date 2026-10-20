@@ -9,6 +9,7 @@
  */
 import postgres from 'postgres';
 import { Resend } from 'resend';
+import { pushToMonday } from './monday';
 
 export const ROLES = ['Owner or director', 'Centre manager', 'Head coach', 'Coach', 'Administrator', 'Other'] as const;
 export const COUNTRIES = ['Australia', 'India', 'New Zealand', 'United Kingdom', 'United States', 'Other'] as const;
@@ -78,14 +79,14 @@ function db() {
 
 // Table definition: scripts/schema.sql (applied with `npm run db:migrate`).
 
-/** Inserts the signup. Returns false if the email was already on the list. */
-async function store(s: Submission, meta: { ip: string; userAgent: string }): Promise<boolean> {
+/** Inserts the signup. Returns the new row, or null if the email was already on the list. */
+async function store(s: Submission, meta: { ip: string; userAgent: string }): Promise<{ id: string; createdAt: Date } | null> {
   const rows = await db()`
     insert into waitlist_signups (email, organisation, role, country, notes, ip, user_agent)
     values (${s.email}, ${s.organisation}, ${s.role}, ${s.country}, ${s.notes ?? null}, ${meta.ip}, ${meta.userAgent.slice(0, 300)})
     on conflict (lower(email)) do nothing
-    returning id`;
-  return rows.length > 0;
+    returning id, created_at`;
+  return rows.length ? { id: String(rows[0].id), createdAt: rows[0].created_at as Date } : null;
 }
 
 /* ---- Email ---- */
@@ -159,10 +160,12 @@ export async function submit(raw: Record<string, unknown>, meta: { ip: string; u
   const s = validate(raw);
   rateLimit(`ip:${meta.ip}`, 5, 10 * 60 * 1000);
   rateLimit(`email:${s.email}`, 2, 24 * 60 * 60 * 1000);
-  const created = await store(s, meta);
+  const row = await store(s, meta);
   // Already on the list: say nothing different to the caller (no enumeration)
   // and do not send a second confirmation.
-  if (!created) return { ok: true as const, emailed: true };
+  if (!row) return { ok: true as const, emailed: true };
+  // Copy to the sales board. Not awaited, and it never rejects (see monday.ts).
+  void pushToMonday(s, { id: row.id, receivedAt: row.createdAt });
   try {
     await sendEmails(s);
     return { ok: true as const, emailed: true };
