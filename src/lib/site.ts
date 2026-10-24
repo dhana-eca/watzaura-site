@@ -55,6 +55,7 @@ export const nav = {
       { href: '/built-at-elite', label: 'Built at Elite' },
       { href: '/switch', label: 'Switching to Plinth' },
       { href: '/early-access', label: 'Early access' },
+      { href: '/demo', label: 'Book a demo' },
     ],
     Company: [
       { href: '/company', label: 'About Watzaura' },
