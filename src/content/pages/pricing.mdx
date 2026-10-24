@@ -6,7 +6,35 @@ heading: Early access. Pricing not yet published.
 lede: "We are not going to put a number on this page that we have not earned the right to. Plinth is opening to a small number of academies first; pricing will be worked out with them, in the open, and published here when it is real."
 ctas:
   - { label: Request early access, href: /early-access }
+  - { label: Book a demo, href: /demo }
 sections:
+  # The sections below `published` are shown only in a build with
+  # PRICING_PUBLISHED=true (see src/lib/pricing.ts). Prices themselves live in
+  # src/lib/pricing.ts.
+  published:
+    eyebrow: Pricing
+    heading: One monthly price per academy.
+    lede: "Pick the plan that fits how many centres you run. Every plan has the whole booking, payments and development record, and there is no fee on the bookings your families make."
+    body: "Plans for sports academies from $149 a month plus GST. Onboarding, a branded app and what every plan includes."
+  plans:
+    eyebrow: Plans
+    heading: Priced by the size of your academy.
+    lede: All prices are in Australian dollars, per month, and exclude GST.
+  addons:
+    eyebrow: Getting started and extras
+    heading: One-off and optional.
+  notes:
+    eyebrow: The small print, in large type
+    heading: What the price does and does not include.
+    items:
+      - title: No booking fee from us
+        body: We charge the plan price, not a cut of every booking. Families pay your academy directly, into your own Stripe or Razorpay account; that provider's card fees are between you and them.
+      - title: Month to month
+        body: No lock-in contract. If you leave, you can export your families, bookings and development records for 30 days.
+      - title: GST
+        body: Prices exclude GST, which is added to our tax invoices for Australian academies.
+      - title: A price that does not change when you ask
+        body: This is the price. If it changes, existing academies get 60 days' notice.
   what:
     eyebrow: What we can say
     heading: What early access includes.

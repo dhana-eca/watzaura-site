@@ -6,32 +6,74 @@ import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
 import Items from '@/components/Items.astro';
 import WaitlistForm from '@/components/WaitlistForm.astro';
+import { pricingPublished, plans, addOns, aud, audIncGst } from '@/lib/pricing';
 
 const { data } = (await getEntry('pages', 'pricing'))!;
 const s = data.sections;
+// Prices appear only when the build says so (src/lib/pricing.ts); until then this is the unpublished page.
+const pub = pricingPublished ? s.published : null;
+const ctas = pub ? [{ label: 'Book a demo', href: '/demo' }, { label: 'Request early access', href: '/early-access' }] : data.ctas;
 ---
 
-<Base title={data.title} description={data.description}>
-  <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} size="t-1" />
+<Base title={data.title} description={pub?.body ?? data.description}>
+  <Hero eyebrow={pub?.eyebrow ?? data.eyebrow} heading={pub?.heading ?? data.heading} lede={pub?.lede ?? data.lede} ctas={ctas} size="t-1" />
 
-  <Section>
-    <div class="grid gap-12 lg:grid-cols-2 lg:gap-8">
-      <div>
-        <SectionHead eyebrow={s.what.eyebrow} heading={s.what.heading} size="t-2" />
-        <Items items={s.what.items!} cols={2} class="mt-8" />
+  {pub ? (
+    <>
+      <Section>
+        <SectionHead eyebrow={s.plans.eyebrow} heading={s.plans.heading} lede={s.plans.lede} size="t-2" />
+        <ul class="mt-10 grid gap-6 md:grid-cols-3">
+          {plans.map((p) => (
+            <li class="flex min-w-0 flex-col border border-line bg-surface/60 p-7">
+              <h3 class="t-3 text-ink">{p.name}</h3>
+              <p class="mt-2 text-[0.9375rem] text-ink-2">{p.for}</p>
+              <p class="mt-6 flex items-baseline gap-2">
+                <span class="ui-num text-[2.5rem] leading-none text-ink">{aud(p.monthly)}</span>
+                <span class="text-[0.9375rem] text-muted">a month + GST</span>
+              </p>
+              <p class="ui-num mt-2 text-[0.8125rem] text-muted">{audIncGst(p.monthly)} a month including GST</p>
+              <ul class="mt-6 grid gap-1.5 border-t border-line pt-6 text-[0.9375rem] text-ink-2">
+                {p.points.map((pt) => (
+                  <li class="flex gap-2.5"><span class="mt-[0.6em] inline-block size-1.5 flex-none bg-brass" aria-hidden="true"></span><span>{pt}</span></li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section tone="surface" tight>
+        <SectionHead eyebrow={s.addons.eyebrow} heading={s.addons.heading} size="t-2" />
+        <Items items={addOns.map((a) => ({ title: a.name, meta: a.price + ' + GST', body: a.body }))} cols={2} class="mt-8" />
+      </Section>
+
+      <Section>
+        <SectionHead eyebrow={s.notes.eyebrow} heading={s.notes.heading} size="t-2" />
+        <Items items={s.notes.items!} cols={4} class="mt-8" />
+      </Section>
+    </>
+  ) : (
+    <Section>
+      <div class="grid gap-12 lg:grid-cols-2 lg:gap-8">
+        <div>
+          <SectionHead eyebrow={s.what.eyebrow} heading={s.what.heading} size="t-2" />
+          <Items items={s.what.items!} cols={2} class="mt-8" />
+        </div>
+        <div class="lg:pl-8">
+          <SectionHead eyebrow={s.wont.eyebrow} heading={s.wont.heading} size="t-2" />
+          <Items items={s.wont.items!} cols={2} class="mt-8" />
+        </div>
       </div>
-      <div class="lg:pl-8">
-        <SectionHead eyebrow={s.wont.eyebrow} heading={s.wont.heading} size="t-2" />
-        <Items items={s.wont.items!} cols={2} class="mt-8" />
-      </div>
-    </div>
-  </Section>
+    </Section>
+  )}
 
   <Section tone="surface" id="waitlist">
     <div class="grid gap-10 lg:grid-cols-12">
       <div class="lg:col-span-5">
         <SectionHead eyebrow="Early access" heading="Join the list." />
-        <p class="mt-6 max-w-md text-[1.0625rem] leading-relaxed text-ink-2">Early-access academies will know the pricing before it is published here. Tell us about yours.</p>
+        <p class="mt-6 max-w-md text-[1.0625rem] leading-relaxed text-ink-2">
+          {pub ? 'Tell us about your academy and we will come back to you with a walkthrough and a start date.' : 'Early-access academies will know the pricing before it is published here. Tell us about yours.'}
+        </p>
       </div>
       <div class="lg:col-span-7">
         <WaitlistForm id="pricing-waitlist" />
