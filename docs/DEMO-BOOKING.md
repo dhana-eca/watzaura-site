@@ -1,17 +1,10 @@
-# Demo booking and pricing: switching them on
+# Demo booking: switching it on, and where prices live
 
-Two pages, both off until someone switches them on.
-
-| Page | Switch (Render env on `watzaura-site`, then redeploy) | While off |
-| --- | --- | --- |
-| `/pricing` | `PRICING_PUBLISHED=true` | Says pricing is not yet published. No price is in the HTML. |
-| `/demo` | `CALCOM_LINK=<cal.com link path>` | Offers email and phone instead of a calendar. |
-
-Both are read when the site is **built**, so a change needs a redeploy, not just a restart.
+The demo page is off until `CALCOM_LINK` is set on the Render service `watzaura-site`. It is read when the site is **built**, so a change needs a redeploy, not just a restart. While it is unset, /demo offers email and phone instead of a calendar.
 
 ## Prices
 
-Plan prices are in `src/lib/pricing.ts`, in AUD excluding GST. They are the go-to-market plan's proposal and are **not confirmed** (console task T-32). Change them there, check `/pricing` in a local build with `PRICING_PUBLISHED=true`, and only then set the flag on Render.
+Plan prices are in `src/lib/pricing.ts`, in AUD excluding GST. The page adds 10% GST to show the including-GST amount. They were confirmed by Dhana on 25 Oct 2026 (console tasks T-32 and T-33). Existing academies get 60 days' notice of a price change.
 
 ## Cal.com (owner steps)
 
