@@ -1,13 +1,20 @@
 ---
 title: Privacy policy
-description: "How Watzaura Infotech Pty Limited handles personal information on watzaura.com and in Plinth, including the Plinth mobile app."
-effective: 16 October 2026
+description: "How Watzaura Infotech Pty Limited handles personal information on watzaura.com, in its academy platform and mobile app, and as a supplier to the academies that use them."
+effective: "[date the new product name goes live]"
 draft: false
 ---
+import { site } from '@/lib/site';
+export const P = site.product.name;
+
+{/* PRODUCT NAME PLACEHOLDER: every product mention below is {P}, which reads site.product.name.
+    The rename (task T-7) flips that one value. Do not merge before the rename and the lawyer's review (T-31). */}
 
 ## Who we are
 
-Watzaura Infotech Pty Limited (ABN 32 702 553 857, ACN 702 553 857) is an Australian company based in Melbourne, Victoria. We operate this website, watzaura.com, and we make Plinth: a software platform used by sports academies, and the Plinth mobile app for iPhone and Android. This policy explains how we handle personal information under the *Privacy Act 1988* (Cth) and the Australian Privacy Principles, and, where it applies, other privacy law such as the GDPR and India's *Digital Personal Data Protection Act 2023*.
+Watzaura Infotech Pty Limited (ABN 32 702 553 857, ACN 702 553 857) is an Australian company based in Melbourne, Victoria. We operate this website, watzaura.com, and we make {P}: a software platform that sports academies use to run their programs, and the {P} mobile app for iPhone and Android. Academies subscribe to {P}; we provide it to them and to the families, athletes and staff they invite.
+
+This policy explains how we handle personal information under the *Privacy Act 1988* (Cth) and the Australian Privacy Principles, and, where it applies, other privacy law such as the GDPR and India's *Digital Personal Data Protection Act 2023*.
 
 You can contact us about privacy at hello@watzaura.com or on +61 452 551 758.
 
@@ -21,7 +28,7 @@ If you request early access, we collect what you enter in that form: your email 
 
 ### Why we collect it
 
-We use early-access details to reply to you about Plinth, to understand which academies are interested, and to send you the confirmation email you asked for. We do not sell this information, add you to a marketing list you did not ask for, or share it with anyone except the service providers below.
+We use early-access details to reply to you about {P}, to understand which academies are interested, and to send you the confirmation email you asked for. We record the request in our own customer system so the person who follows it up can see it. We do not sell this information, add you to a marketing list you did not ask for, or share it with anyone except the service providers below.
 
 ### Who handles it for us
 
@@ -34,17 +41,25 @@ Each provider processes your information only to provide the service, under thei
 
 Early-access requests are kept until you ask us to delete them or until we no longer need them to run early access, whichever comes first. Email hello@watzaura.com to have your request removed.
 
-## Plinth
+## Academies that use {P}
+
+When an academy subscribes, we hold information about the academy and the people we deal with there: owners, managers and billing contacts. That is their names, work email addresses and phone numbers, the academy's ABN and address, the plan it is on, its invoices and payments to us, and our emails, calls and support requests with it.
+
+We use it to set the academy up, bill it, support it and tell it about changes to {P}. Subscription payments are handled by Stripe; we keep our accounts in Xero. We keep these records for as long as the academy is a customer and then for at least five years, because tax law requires it.
+
+## {P}
 
 ### Who is responsible
 
-Plinth is used by sports academies to run their bookings, memberships, coaching and athletes' development. When an academy uses Plinth, the academy decides what personal information it collects about its families, athletes and staff, and why. In privacy terms the academy is responsible for that information, and Watzaura handles it on the academy's behalf and on its instructions. Each academy's records are kept separate from every other academy's.
+Academies use {P} to run their bookings, memberships, coaching and athletes' development. Each academy decides what personal information it collects about its families, athletes and staff, and why. In privacy terms the academy is responsible for that information. Watzaura handles it on the academy's behalf, on its instructions and under a written agreement with it, and does not use it for any purpose of its own.
 
-The academy's own privacy policy explains what it collects and why. Elite Cricket Academy's is at [book.elitecricketacademy.com.au/privacy](https://book.elitecricketacademy.com.au/privacy).
+Every academy's records are kept separate from every other academy's. Staff at one academy cannot see another academy's families, athletes or staff, and a family that trains at two academies has a separate record with each.
 
-### What Plinth holds
+The academy's own privacy policy explains what it collects and why. Elite Cricket Academy, a business related to Watzaura and the first academy to use {P}, publishes its policy at [book.elitecricketacademy.com.au/privacy](https://book.elitecricketacademy.com.au/privacy).
 
-Depending on what the academy uses, Plinth can hold:
+### What {P} holds
+
+Depending on what the academy uses, {P} can hold:
 
 - names, email addresses, phone numbers and addresses of parents, guardians, adult athletes and staff;
 - children's names and dates of birth, so they are placed in the right age group;
@@ -57,26 +72,30 @@ Depending on what the academy uses, Plinth can hold:
 
 We do not collect card numbers. When you pay, your card details are entered on the payment provider's own secure page and never reach our systems. We keep only the card brand, its expiry and the last four digits, so you can recognise a saved card.
 
-### The Plinth mobile app
+### When Watzaura staff see academy records
+
+Our staff do not browse academy records. When an academy asks for help with a particular family or booking, a member of our support team can open a support session for that academy. A session must be approved by the academy, ends by itself (after 60 minutes, or 30 minutes if it allows changes), and everything done in it is logged. Only in an emergency affecting the security or availability of {P} can we act without that approval, and we tell the academy afterwards.
+
+### The {P} mobile app
 
 The app shows the information above to the people entitled to see it: parents see their own family, coaches see the squads they coach. In addition:
 
 - **Signing in.** Sign-in is handled by Auth0 (Okta). Your password goes to Auth0, not to us or to the academy. If you sign in with Google or Apple, we receive only your basic profile from them: your name, your email address (Apple lets you hide it behind a relay address) and, from Google, a link to your profile picture.
 - **Face ID and fingerprint unlock.** If you turn this on, your phone checks your face or fingerprint itself. The app is only told whether the check passed. Your biometric data never leaves your device and we never receive it.
 - **Notifications.** If you allow notifications, the app registers a notification token for your device with us, so we can send booking confirmations, reminders and notices from your academy. You can turn notifications off in your phone's settings at any time.
-- **Payments.** When you pay in the app, it opens the academy's payment provider's secure page. The app does not see your card details.
+- **Payments.** When you pay in the app, it opens the academy's payment provider's secure page. You are paying the academy, not Watzaura, and the app does not see your card details.
 - **No advertising or tracking.** The app has no advertising, no third-party analytics and no tracking across other apps or websites, and it does not use your device's advertising identifier.
 
-### Who else handles Plinth information
+### Who else handles {P} information
 
-We use other companies to run parts of Plinth. Each receives only what it needs for its part, and only to do it for us or for the academy.
+We use other companies to run parts of {P}. Each receives only what it needs for its part, and only to do it for us or for the academy. We tell academies before we add or replace any of them.
 
 | Company | What they handle |
 | --- | --- |
-| Render | Hosting Plinth and its database |
+| Render | Hosting {P} and its database |
 | Auth0 (Okta) | Signing in and passwords |
-| Stripe | Card payments and subscriptions (Australia) |
-| Razorpay | Card payments and subscriptions (India) |
+| Stripe | Card payments to academies (Australia), and academies' subscriptions to {P} |
+| Razorpay | Card payments to academies (India) |
 | PayPal | Payments, if you choose PayPal |
 | Ezypay | Direct debit, for academies that use it |
 | Cloudflare | Storing photos and video |
@@ -84,38 +103,42 @@ We use other companies to run parts of Plinth. Each receives only what it needs 
 | Expo | Delivering push notifications to the mobile app |
 | Apple and Google | Carrying push notifications to your phone, and Sign in with Apple or Google if you use it |
 | Sentry | Alerting us when the platform has an error |
+| Google Workspace | Our support mailbox, if you email us for help |
 | Anthropic | Answering questions typed into an academy's in-app assistant, where the academy offers one |
 
 An academy may also connect services of its own, such as a sports results service or its own advertising measurement. Its privacy policy explains those.
 
-We do not sell Plinth information, and we do not use it to advertise to anyone.
+We do not sell {P} information, we do not use it to advertise to anyone, and we do not use it to train artificial intelligence models.
 
 ### Information held overseas
 
-Several of these companies process information outside Australia, including in the United States, Singapore and the European Union, and academies in India have their records handled for their Indian operations. Your information may therefore be handled overseas, where privacy law differs from Australian law. We take reasonable steps to make sure these providers protect it in line with the Australian Privacy Principles.
+Several of these companies process information outside Australia, including in the United States, Singapore and the European Union, and academies in India have their records handled for their Indian operations. {P}'s main database is held in Singapore. Your information may therefore be handled overseas, where privacy law differs from Australian law. We take reasonable steps to make sure these providers protect it in line with the Australian Privacy Principles.
 
-### How long Plinth keeps it
+### How long {P} keeps it
 
 - Financial records (bookings, payments, invoices and credit) are kept for at least five years, because tax law requires it. They cannot be deleted on request; when an account is deleted they are kept without the person's name attached.
 - Coaching records are kept while the athlete is with the academy, and for a reasonable period afterwards in case they return.
 - Photos and video are kept until the family asks for them to be removed or deletes their account.
 - Everything else is erased when the account is deleted.
+- If an academy stops using {P}, it can export its records for 30 days. We then delete them within a further 60 days, except the financial records the law requires to be kept.
 
 ### Deleting your account
 
-You can delete your account in the Plinth app (**Account** tab → **Delete my account**), or without the app by following our [account deletion](/legal/account-deletion) page. That page lists exactly what is erased and what has to be kept.
+You can delete your account in the {P} app (**Account** tab → **Delete my account**), or without the app by following our [account deletion](/legal/account-deletion) page. That page lists exactly what is erased and what has to be kept.
 
 ## Children
 
-Plinth holds records about children because academies coach children. Plinth accounts are held by adults: a parent or guardian holds the account and gives the consents for their child. Photography and promotional-use consents are asked separately and are optional, and can be changed at any time.
+{P} holds records about children, some as young as five, because academies coach children. {P} accounts are held by adults: a parent or guardian holds the account and gives the consents for their child. Photography and promotional-use consents are asked separately and are optional, and can be changed at any time. We never use children's information for advertising or to build profiles of them.
 
 ## Keeping it safe
 
-Access to Plinth information is limited to the people who need it for their role, and what each role can see is enforced by the system, not by hiding buttons. Information is encrypted in transit between your device and Plinth. No system is perfect: if something happens that puts your information at serious risk, we and the academy will tell you, as the Notifiable Data Breaches scheme requires.
+Access to {P} information is limited to the people who need it for their role, and what each role can see is enforced by the system, not by hiding buttons. Information is encrypted in transit between your device and {P}. Our own staff sign in to a separate, logged management system, and see academy records only through the support sessions described above.
+
+No system is perfect. If something happens that puts your information at serious risk, we will tell the academy straight away, and we and the academy will tell you, as the Notifiable Data Breaches scheme requires.
 
 ## Your rights
 
-You can ask what personal information is held about you, ask for it to be corrected, or ask for it to be deleted. For Plinth records, the academy controls the record, so contact the academy first; if you cannot reach them, contact us at hello@watzaura.com and we will help. We normally respond within 30 days. If you are not satisfied with the response, you can complain to the Office of the Australian Information Commissioner at [oaic.gov.au](https://www.oaic.gov.au).
+You can ask what personal information is held about you, ask for it to be corrected, or ask for it to be deleted. For {P} records, the academy controls the record, so contact the academy first; if you cannot reach them, contact us at hello@watzaura.com and we will pass your request to the academy and help it respond. We normally respond within 30 days. If you are not satisfied with the response, you can complain to the Office of the Australian Information Commissioner at [oaic.gov.au](https://www.oaic.gov.au).
 
 ## Changes
 
