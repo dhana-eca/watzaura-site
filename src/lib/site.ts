@@ -59,6 +59,7 @@ export const nav = {
     ],
     Company: [
       { href: '/company', label: 'About Watzaura' },
+      { href: '/blog', label: 'Blog' },
       { href: 'mailto:hello@watzaura.com', label: 'hello@watzaura.com' },
       { href: '/legal/privacy', label: 'Privacy' },
       { href: '/legal/terms', label: 'Terms' },
