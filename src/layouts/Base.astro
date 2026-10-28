@@ -67,6 +67,7 @@ const schemas = [organization, ...(product ? [application] : []), ...jsonLd];
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Watzaura blog" href="/rss.xml" />
     {/* Google Search Console ownership proof for the www property (info@vecl.au).
         Verified 2 Oct 2026 — removing this un-verifies the property. The same
         token is also served as /google5b38515883e9ee3d.html. */}
@@ -97,5 +98,9 @@ const schemas = [organization, ...(product ? [application] : []), ...jsonLd];
       <slot />
     </main>
     <Footer />
+    {/* Metricool web analytics for the Watzaura brand (blogId 7703185). Cookieless:
+        one pixel request per page view with the URL, window size and referrer.
+        Disclosed in the privacy policy — remove it there if this goes. */}
+    <script is:inline>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"ef7c6630ed2033891bc0e536c8a4f6f1"})});</script>
   </body>
 </html>

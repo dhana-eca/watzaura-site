@@ -54,4 +54,17 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { pages, legal };
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/posts' }),
+  schema: z.object({
+    title: z.string(),
+    /** One or two sentences; used as the meta description, the listing blurb and the RSS summary. */
+    description: z.string(),
+    date: z.coerce.date(),
+    author: z.string().default('Watzaura'),
+    /** Hidden from the blog, sitemap and RSS until false. */
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { pages, legal, posts };
