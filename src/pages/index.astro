@@ -14,6 +14,7 @@ import PhoneHome from '@/components/ui/PhoneHome.astro';
 import RecordFlow from '@/components/RecordFlow.astro';
 import Tiles from '@/components/Tiles.astro';
 import PullQuote from '@/components/PullQuote.astro';
+import EliteOneLaunch from '@/components/EliteOneLaunch.astro';
 
 const page = (await getEntry('pages', 'home'))!;
 const { data } = page;
@@ -21,6 +22,7 @@ const s = data.sections;
 ---
 
 <Base title="Watzaura" description={data.description} product>
+  <EliteOneLaunch variant="strip" />
   <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} layout="split" backdrop>
     <PhoneHome />
     <p class="mx-auto mt-6 max-w-[18.5rem] text-center text-[0.75rem] text-muted">The Plinth Home screen, rendered with an invented family. Not customer data.</p>

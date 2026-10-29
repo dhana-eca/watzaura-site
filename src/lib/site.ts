@@ -67,3 +67,14 @@ export const nav = {
     ],
   },
 } as const;
+
+/**
+ * Elite One Cricket, Elite Cricket Academy's edition of the Plinth app.
+ * Submitted to both stores 30 Oct 2026; flip `live` once both approve.
+ */
+export const eliteOne = {
+  live: false,
+  appStore: 'https://apps.apple.com/au/app/elite-one-cricket/id6824725254',
+  googlePlay: 'https://play.google.com/store/apps/details?id=com.watzaura.plinth',
+  post: '/blog/elite-one-cricket-submitted',
+} as const;

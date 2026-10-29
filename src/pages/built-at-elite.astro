@@ -10,6 +10,7 @@ import CtaBand from '@/components/CtaBand.astro';
 import LaneGrid from '@/components/LaneGrid.astro';
 import { centrePhotos } from '@/lib/photos';
 import PullQuote from '@/components/PullQuote.astro';
+import EliteOneLaunch from '@/components/EliteOneLaunch.astro';
 
 const { data } = (await getEntry('pages', 'built-at-elite'))!;
 const s = data.sections;
@@ -25,6 +26,8 @@ const s = data.sections;
       </div>
     </div>
   </Section>
+
+  <EliteOneLaunch />
 
   <Section tone="surface">
     <SectionHead eyebrow={s.centres.eyebrow} heading={s.centres.heading} />
