@@ -6,9 +6,9 @@
 interface Props { view?: 'coach' | 'parent' | 'athlete'; class?: string }
 const { view = 'coach', class: className = '' } = Astro.props;
 const labels = {
-  coach: "Illustration of the Plinth coach app on a phone: today's roster with attendance marked, and a rating ready to write.",
-  parent: "Illustration of the Plinth parent app on a phone: the next session, the child's latest coach rating and the membership.",
-  athlete: "Illustration of the Plinth athlete app on a phone: this week's focus, the assigned program, the training diary and the next match.",
+  coach: "Illustration of the Arenzo coach app on a phone: today's roster with attendance marked, and a rating ready to write.",
+  parent: "Illustration of the Arenzo parent app on a phone: the next session, the child's latest coach rating and the membership.",
+  athlete: "Illustration of the Arenzo athlete app on a phone: this week's focus, the assigned program, the training diary and the next match.",
 };
 const label = labels[view];
 const roster: Array<[string, boolean]> = [['Priya N.', true], ['Arjun V.', true], ['Maya T.', true], ['Rohan N.', false], ['Zac L.', true]];

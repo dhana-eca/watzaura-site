@@ -41,7 +41,7 @@ export const POST: APIRoute = async ({ request }) => {
     const html = `<pre style="font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap">${esc(text)}</pre>`;
 
     const resend = new Resend(RESEND_API_KEY);
-    const r = await resend.emails.send({ from: WAITLIST_FROM, to: WAITLIST_NOTIFY, subject: `Plinth early access — ${rows.length} new this week`, text, html });
+    const r = await resend.emails.send({ from: WAITLIST_FROM, to: WAITLIST_NOTIFY, subject: `Arenzo early access — ${rows.length} new this week`, text, html });
     if (r.error) return json({ ok: false, error: `Resend: ${r.error.message}`, count: rows.length }, 502);
     return json({ ok: true, count: rows.length, total, sent: true });
   } finally {

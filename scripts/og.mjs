@@ -55,7 +55,7 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
   ${text(fraunces, { wght: 500, opsz: 144 }, 64, 72, 250, 'One record, from the', ink, -1.6)}
   ${text(fraunces, { wght: 500, opsz: 144 }, 64, 72, 322, 'booking to the', ink, -1.6)}
   ${text(fraunces, { wght: 500, opsz: 144 }, 64, 72, 394, 'development plan.', ink, -1.6)}
-  ${text(archivo, { wght: 400 }, 22, 72, 452, 'Plinth — the operating system for', ink2)}
+  ${text(archivo, { wght: 400 }, 22, 72, 452, 'Arenzo — the operating system for', ink2)}
   ${text(archivo, { wght: 400 }, 22, 72, 484, 'performance-focused sports academies.', ink2)}
   ${text(mono, { wght: 500 }, 15, 72, 552, 'EARLY ACCESS IS OPENING · WATZAURA.COM', brass, 1.8)}
 </svg>`;

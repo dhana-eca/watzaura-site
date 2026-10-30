@@ -19,10 +19,10 @@ export const site = {
   phone: '0452 551 758',
   phoneIntl: '+61 452 551 758',
   product: {
-    name: 'Plinth',
+    name: 'Arenzo',
     tagline: 'Run your academy. Develop every athlete.',
     description:
-      'Plinth is an operating system for performance-focused sports academies: bookings, memberships, payments and every athlete’s development, held as one record.',
+      'Arenzo is an operating system for performance-focused sports academies: bookings, memberships, payments and every athlete’s development, held as one record.',
   },
   /** Default social image, 1200×630, generated at build from public/. */
   ogImage: '/og/default.png',
@@ -53,7 +53,7 @@ export const nav = {
     Academies: [
       { href: '/who-its-for', label: 'Who it’s for' },
       { href: '/built-at-elite', label: 'Built at Elite' },
-      { href: '/switch', label: 'Switching to Plinth' },
+      { href: '/switch', label: 'Switching to Arenzo' },
       { href: '/early-access', label: 'Early access' },
       { href: '/demo', label: 'Book a demo' },
     ],
@@ -69,7 +69,7 @@ export const nav = {
 } as const;
 
 /**
- * Elite One Cricket, Elite Cricket Academy's edition of the Plinth app.
+ * Elite One Cricket, Elite Cricket Academy's edition of the Arenzo app.
  * Submitted to both stores 30 Oct 2026; flip `live` once both approve.
  */
 export const eliteOne = {
