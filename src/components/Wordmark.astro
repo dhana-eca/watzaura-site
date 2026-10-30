@@ -5,12 +5,12 @@
  * typographic mark that can be replaced by a supplied SVG in one place.
  */
 interface Props {
-  which?: 'watzaura' | 'plinth';
+  which?: 'watzaura' | 'arenzo';
   size?: 'sm' | 'md' | 'lg';
   class?: string;
 }
 const { which = 'watzaura', size = 'md', class: className = '' } = Astro.props;
-const text = which === 'plinth' ? 'Plinth' : 'Watzaura';
+const text = which === 'arenzo' ? 'Arenzo' : 'Watzaura';
 const sizes = { sm: 'text-[1.125rem]', md: 'text-[1.375rem]', lg: 'text-[2rem]' };
 ---
 

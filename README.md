@@ -2,7 +2,7 @@
 
 The site is served at **https://www.watzaura.com**; the apex `watzaura.com` 301s to it at Render's edge.
 
-Corporate and product site for **Watzaura Infotech Pty Limited** and its product **Plinth**. Astro 5, Tailwind 4, MDX. Every page is static HTML; one server route (`/api/waitlist`) takes early-access requests, plus `/early-access` is server-rendered so a no-JavaScript submission can come back with its error message.
+Corporate and product site for **Watzaura Infotech Pty Limited** and its product **Arenzo**. Astro 5, Tailwind 4, MDX. Every page is static HTML; one server route (`/api/waitlist`) takes early-access requests, plus `/early-access` is server-rendered so a no-JavaScript submission can come back with its error message.
 
 ## Run and build
 
@@ -79,8 +79,8 @@ DNS (GoDaddy): `A @ 216.24.57.1` and `CNAME www → watzaura-site.onrender.com`.
 
 - **Fonts** are self-hosted in `public/fonts/` (latin subsets from Fontsource, SIL OFL; licences alongside). `font-display: swap`, the two critical faces preloaded. CLS measured at 0 on every page.
 - **Social image and favicons** are generated: `node scripts/og.mjs` (uses `scripts/fonts/*.ttf`, decompressed from the woff2 files with `wawoff2`). Edit the text in that script if the headline changes.
-- **Wordmarks** — no logo exists. `src/components/Wordmark.astro` sets "Watzaura" and "Plinth" in Fraunces with one brass block. Replace that component when a real mark exists.
-- **Product visuals** are rendered in HTML/CSS (`src/components/ui/`) with an invented academy ("Northgate Cricket Academy") and invented players. Each is labelled as an illustration on the page. They depict what Plinth does today; if the product changes, change them.
+- **Wordmarks** — no logo exists. `src/components/Wordmark.astro` sets "Watzaura" and "Arenzo" in Fraunces with one brass block. Replace that component when a real mark exists.
+- **Product visuals** are rendered in HTML/CSS (`src/components/ui/`) with an invented academy ("Northgate Cricket Academy") and invented players. Each is labelled as an illustration on the page. They depict what Arenzo does today; if the product changes, change them.
 - **Photographs of the centres** — none yet. Add files to `src/assets/centres/` and list them in `src/lib/photos.ts`; `/built-at-elite` then renders the gallery automatically and drops the "photographs only with consent on file" notice. **Do not add an image showing an identifiable child unless a guardian's signed media consent is on file**, and record who checked in the `consent` field.
 
 ## Automation

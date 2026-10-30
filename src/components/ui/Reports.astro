@@ -12,7 +12,7 @@ const fmt = (n: number) => 'A$' + n.toLocaleString('en-AU');
 const tot = (c: number[]) => c.reduce((a, b) => a + b, 0);
 ---
 
-<div class="ui-frame p-4" role="img" aria-label="Illustration of a Plinth report: sales by day for two Australian centres over one week, with weekly totals and a program roll count. Figures invented.">
+<div class="ui-frame p-4" role="img" aria-label="Illustration of an Arenzo report: sales by day for two Australian centres over one week, with weekly totals and a program roll count. Figures invented.">
   <div class="flex flex-wrap items-end justify-between gap-3">
     <div><p class="ui-label">Reports · Sales by centre</p><p class="mt-0.5 font-medium text-ink">Week of 13 Oct · AUD</p></div>
     <ul class="flex gap-4 text-[0.75rem]">{centres.map((c) => <li class="flex items-center gap-1.5"><span class:list={['size-2 rounded-[2px]', c.cls === 'fill-brass' ? 'bg-brass' : 'bg-brass/45']}></span>{c.name}</li>)}</ul>
