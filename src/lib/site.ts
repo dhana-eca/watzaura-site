@@ -28,6 +28,12 @@ export const site = {
   ogImage: '/og/default.png',
 } as const;
 
+/**
+ * Where an owner signs up for Arenzo: the /start wizard of the Arenzo web app.
+ * Matches startUrl in arenzo-site; written once here.
+ */
+export const startUrl = 'https://app.arenzo.com.au/start';
+
 export const nav = {
   product: [
     { href: 'https://arenzo.app/product', label: 'Overview', blurb: 'One record from the booking to the development plan' },
@@ -41,7 +47,9 @@ export const nav = {
     { href: 'https://arenzo.app/pricing', label: 'Pricing' },
     { href: '/', label: 'Company' },
   ],
-  cta: { href: 'https://arenzo.app/early-access', label: 'Request early access' },
+  cta: { href: startUrl, label: 'Start free trial' },
+  /** arenzo.app's early-access form, for owners who want a call before they sign up. */
+  talk: { href: 'https://arenzo.app/early-access', label: 'Talk to us first' },
   footer: {
     Product: [
       { href: 'https://arenzo.app/product', label: 'Overview' },
@@ -54,7 +62,8 @@ export const nav = {
       { href: 'https://arenzo.app/who-its-for', label: 'Who it’s for' },
       { href: 'https://arenzo.app/built-at-elite', label: 'Built at Elite' },
       { href: 'https://arenzo.app/switch', label: 'Switching to Arenzo' },
-      { href: 'https://arenzo.app/early-access', label: 'Early access' },
+      { href: startUrl, label: 'Start free trial' },
+      { href: 'https://arenzo.app/early-access', label: 'Talk to us first' },
       { href: 'https://arenzo.app/demo', label: 'Book a demo' },
     ],
     Company: [

@@ -12,7 +12,7 @@ import Items from '@/components/Items.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Wordmark from '@/components/Wordmark.astro';
 import PullQuote from '@/components/PullQuote.astro';
-import { site } from '@/lib/site';
+import { site, nav } from '@/lib/site';
 
 const { data } = (await getEntry('pages', 'company'))!;
 const s = data.sections;
@@ -27,11 +27,11 @@ const s = data.sections;
         <p class="eyebrow mb-5">Our product</p>
         <div><Wordmark which="arenzo" size="lg" /></div>
         <p class="lede mt-6 max-w-xl">
-          {site.product.description} It runs our own academy's three centres in Australia and India, and is opening to other academies.
+          {site.product.description} It runs our own academy's three centres in Australia and India, and any academy, gym or coach can now start a 30-day free trial.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="https://arenzo.app" class="btn btn-primary btn-lg">Visit arenzo.app</a>
-          <a href="https://arenzo.app/early-access" class="btn btn-secondary btn-lg">Request early access</a>
+          <a href={nav.cta.href} class="btn btn-secondary btn-lg">{nav.cta.label}</a>
         </div>
       </div>
       <ul class="grid gap-3 lg:col-span-5">
