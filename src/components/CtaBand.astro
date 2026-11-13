@@ -1,25 +1,25 @@
 ---
 import LaneGrid from './LaneGrid.astro';
 import { nav } from '@/lib/site';
-interface Props { heading?: string; body?: string; label?: string; href?: string }
+interface Props { eyebrow?: string; heading?: string; body?: string }
 const {
-  heading = 'Early access is opening.',
-  body = 'Arenzo is in daily use at three centres and is opening to a small number of academies next. Tell us about yours.',
-  label = nav.cta.label,
-  href = nav.cta.href,
+  eyebrow = 'Free trial',
+  heading = 'Try Arenzo free for 30 days.',
+  body = 'Every plan starts with a 30-day free trial. We take your card or direct debit now and charge nothing until day 30; cancel any time before.',
 } = Astro.props;
 ---
 
 <section class="border-t border-line bg-surface/40">
   <div class="wrap grid items-center gap-10 py-16 md:grid-cols-12 md:py-20">
     <div class="md:col-span-7">
-      <p class="eyebrow mb-4">Early access</p>
+      <p class="eyebrow mb-4">{eyebrow}</p>
       <h2 class="t-1">{heading}</h2>
       <p class="mt-4 max-w-xl text-[1.0625rem] text-ink-2">{body}</p>
       <div class="mt-7 flex flex-wrap gap-3">
-        <a href={href} class="btn btn-primary btn-lg">{label}</a>
-        <a href="mailto:hello@watzaura.com" class="btn btn-secondary btn-lg">hello@watzaura.com</a>
+        <a href={nav.cta.href} class="btn btn-primary btn-lg">{nav.cta.label}</a>
+        <a href={nav.talk.href} class="btn btn-secondary btn-lg">{nav.talk.label}</a>
       </div>
+      <p class="mt-5 text-[0.9375rem] text-muted">Or write to <a href="mailto:hello@watzaura.com" class="link">hello@watzaura.com</a>.</p>
     </div>
     <div class="hidden justify-end md:col-span-5 md:flex">
       <LaneGrid class="h-auto w-64" cols={8} rows={6} cell={28} filled={[[1, 1, 2], [4, 3], [6, 0, 3], [2, 4]]} held={[[5, 2, 2]]} />
