@@ -12,6 +12,7 @@ import Items from '@/components/Items.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Wordmark from '@/components/Wordmark.astro';
 import PullQuote from '@/components/PullQuote.astro';
+import EliteOneLaunch from '@/components/EliteOneLaunch.astro';
 import { site, nav } from '@/lib/site';
 
 const { data } = (await getEntry('pages', 'company'))!;
@@ -20,6 +21,7 @@ const s = data.sections;
 
 <Base title={site.name} description={data.description}>
   <Hero eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} ctas={data.ctas} size="t-1" />
+  <EliteOneLaunch variant="strip" />
 
   <Section tone="surface">
     <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-8">
@@ -39,7 +41,7 @@ const s = data.sections;
           ['Operations', 'Bookings, lanes, programs, memberships and payments.', 'https://arenzo.app/product/operations'],
           ['Development', 'Assessments, coach ratings and development plans.', 'https://arenzo.app/product/development'],
           ['Mobile', 'Apps for parents, athletes and coaches.', 'https://arenzo.app/product/mobile'],
-          ['Pricing', 'One monthly price per academy.', 'https://arenzo.app/pricing'],
+          ['Pricing', 'Monthly plans for academies, gyms and independent coaches, with 30 days free.', 'https://arenzo.app/pricing'],
         ].map(([title, body, href]) => (
           <li>
             <a href={href} class="block rounded-lg border border-line bg-ground/40 px-5 py-4 transition-colors hover:border-line-strong">

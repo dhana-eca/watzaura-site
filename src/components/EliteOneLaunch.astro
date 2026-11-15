@@ -1,12 +1,12 @@
 ---
 /**
  * Elite One Cricket: Elite Cricket Academy's edition of the Arenzo app,
- * submitted to the App Store and Google Play on 30 Oct 2026. `strip` is the
- * one-line announcement under the home hero; `full` is the section on
- * /built-at-elite with the store screenshots (demo academy, invented family).
+ * submitted to the App Store and Google Play on 30 Oct 2026 and live on both
+ * since 11 Nov 2026. `strip` is the one-line announcement under the company
+ * home hero; `full` is the section with the store screenshots (demo academy,
+ * invented family).
  *
- * When the stores approve it, set `eliteOne.live = true` and the store links
- * replace "In review".
+ * `eliteOne.live` switches the copy and the store links on.
  */
 import { Image } from 'astro:assets';
 import icon from '@/assets/elite-one/play-icon-512.png';
@@ -34,9 +34,13 @@ const status = eliteOne.live ? 'Live on the App Store and Google Play' : 'Submit
       <Image src={icon} alt="" width={96} class="h-12 w-12 shrink-0 rounded-xl" />
       <p class="text-[0.9375rem] leading-snug text-ink-2">
         <span class="ui-label mr-2 text-brass">New</span>
-        <strong>Elite One Cricket</strong>, the first academy app built on Arenzo, is with the App Store and Google Play for review.
+        <strong>Elite One Cricket</strong>, the first academy app built on Arenzo, {eliteOne.live ? 'is live on the App Store and Google Play.' : 'is with the App Store and Google Play for review.'}
       </p>
-      <a href={eliteOne.post} class="link link-arrow shrink-0 text-[0.9375rem] sm:ml-auto">Read the story</a>
+      <span class="flex shrink-0 flex-wrap gap-x-5 gap-y-2 text-[0.9375rem] sm:ml-auto">
+        {eliteOne.live && <a href={eliteOne.appStore} class="link">App Store</a>}
+        {eliteOne.live && <a href={eliteOne.googlePlay} class="link">Google Play</a>}
+        <a href={eliteOne.post} class="link link-arrow">Read the story</a>
+      </span>
     </div>
   </aside>
 ) : (

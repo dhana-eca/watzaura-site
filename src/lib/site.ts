@@ -79,11 +79,13 @@ export const nav = {
 
 /**
  * Elite One Cricket, Elite Cricket Academy's edition of the Arenzo app.
- * Submitted to both stores 30 Oct 2026; flip `live` once both approve.
+ * Submitted to both stores 30 Oct 2026. Live on Google Play since 30 Oct and
+ * on the App Store since 11 Nov 2026.
  */
 export const eliteOne = {
-  live: false,
+  live: true,
   appStore: 'https://apps.apple.com/au/app/elite-one-cricket/id6824725254',
   googlePlay: 'https://play.google.com/store/apps/details?id=com.watzaura.plinth',
-  post: '/blog/elite-one-cricket-submitted',
+  /** The blog moved to arenzo.app; link there directly rather than through the 301. */
+  post: 'https://arenzo.app/blog/elite-one-cricket-submitted',
 } as const;
