@@ -13,7 +13,7 @@ import CtaBand from '@/components/CtaBand.astro';
 import Wordmark from '@/components/Wordmark.astro';
 import PullQuote from '@/components/PullQuote.astro';
 import EliteOneLaunch from '@/components/EliteOneLaunch.astro';
-import { site, nav } from '@/lib/site';
+import { site, nav, arenzoApp } from '@/lib/site';
 
 const { data } = (await getEntry('pages', 'company'))!;
 const s = data.sections;
@@ -29,7 +29,7 @@ const s = data.sections;
         <p class="eyebrow mb-5">Our product</p>
         <div><Wordmark which="arenzo" size="lg" /></div>
         <p class="lede mt-6 max-w-xl">
-          {site.product.description} It runs our own academy's three centres in Australia and India, and any academy, gym or coach can now start a 30-day free trial.
+          {site.product.description} It runs our own academy's three centres in Australia and India, and any academy, gym or coach can now start a 30-day free trial.{arenzoApp.android && arenzoApp.ios ? ' The Arenzo app is on the App Store and Google Play.' : arenzoApp.android ? ' The Arenzo app is on Google Play, with the iPhone version in review with Apple.' : ''}
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="https://arenzo.app" class="btn btn-primary btn-lg">Visit arenzo.app</a>
