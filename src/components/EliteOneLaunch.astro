@@ -15,7 +15,7 @@ import book from '@/assets/elite-one/02-book.png';
 import memberships from '@/assets/elite-one/03-memberships.png';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
-import { eliteOne } from '@/lib/site';
+import { eliteOne, arenzoApp } from '@/lib/site';
 
 interface Props { variant?: 'strip' | 'full' }
 const { variant = 'full' } = Astro.props;
@@ -34,11 +34,14 @@ const status = eliteOne.live ? 'Live on the App Store and Google Play' : 'Submit
       <Image src={icon} alt="" width={96} class="h-12 w-12 shrink-0 rounded-xl" />
       <p class="text-[0.9375rem] leading-snug text-ink-2">
         <span class="ui-label mr-2 text-brass">New</span>
-        <strong>Elite One Cricket</strong>, the first academy app built on Arenzo, {eliteOne.live ? 'is live on the App Store and Google Play.' : 'is with the App Store and Google Play for review.'}
+        {arenzoApp.android && arenzoApp.ios
+          ? <><strong>The Arenzo app</strong> is live on the App Store and Google Play. </>
+          : arenzoApp.android ? <><strong>The Arenzo app</strong> is live on Google Play, with the App Store to follow. </> : null}
+        <strong>Elite One Cricket</strong>, the first academy app built on Arenzo, {eliteOne.live ? 'is on both stores, now with Speed Gun and Technique Lab.' : 'is with the App Store and Google Play for review.'}
       </p>
       <span class="flex shrink-0 flex-wrap gap-x-5 gap-y-2 text-[0.9375rem] sm:ml-auto">
-        {eliteOne.live && <a href={eliteOne.appStore} class="link">App Store</a>}
-        {eliteOne.live && <a href={eliteOne.googlePlay} class="link">Google Play</a>}
+        {arenzoApp.android && <a href={arenzoApp.googlePlay} class="link">Arenzo on Google Play</a>}
+        {arenzoApp.ios && <a href={arenzoApp.appStore} class="link">Arenzo on the App Store</a>}
         <a href={eliteOne.post} class="link link-arrow">Read the story</a>
       </span>
     </div>

@@ -80,7 +80,8 @@ export const nav = {
 /**
  * Elite One Cricket, Elite Cricket Academy's edition of the Arenzo app.
  * Submitted to both stores 30 Oct 2026. Live on Google Play since 30 Oct and
- * on the App Store since 11 Nov 2026.
+ * on the App Store since 11 Nov 2026. Version 2.0.1 (Speed Gun, Technique Lab,
+ * Enrol & book) is on both stores since 20 Nov 2026.
  */
 export const eliteOne = {
   live: true,
@@ -88,4 +89,15 @@ export const eliteOne = {
   googlePlay: 'https://play.google.com/store/apps/details?id=com.watzaura.plinth',
   /** The blog moved to arenzo.app; link there directly rather than through the 301. */
   post: 'https://arenzo.app/blog/elite-one-cricket-submitted',
+} as const;
+
+/**
+ * The Arenzo app itself. Google Play published 2.0.0 on 19 Nov 2026; the App
+ * Store version is with Apple for review. Turn `ios` on the day Apple releases it.
+ */
+export const arenzoApp = {
+  android: true,
+  ios: false,
+  appStore: 'https://apps.apple.com/au/app/id6833270300',
+  googlePlay: 'https://play.google.com/store/apps/details?id=com.watzaura.arenzo',
 } as const;
