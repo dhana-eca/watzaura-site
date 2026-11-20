@@ -16,8 +16,8 @@ export const site = {
   url: 'https://www.watzaura.com',
   email: 'hello@watzaura.com',
   /** Company line (mobile), shown as written in Australia; `phoneIntl` for tel: links and JSON-LD. */
-  phone: '0452 551 758',
-  phoneIntl: '+61 452 551 758',
+  phone: '0468 273 696',
+  phoneIntl: '+61 468 273 696',
   product: {
     name: 'Arenzo',
     tagline: 'Run your academy. Develop every athlete.',
